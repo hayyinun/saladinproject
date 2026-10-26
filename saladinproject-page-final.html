@@ -1,0 +1,2359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baitul Maqdis — Eksplorasi Keilmuan & Strategi</title>
+  <!-- Google Fonts: Oswald (Display), Plus Jakarta Sans (Body), Amiri (Arabic/Serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Oswald:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --gold: #f5c542;
+      --gold-soft: rgba(245, 197, 66, 0.75);
+      --gold-glow: rgba(245, 197, 66, 0.3);
+      --text-light: #f8fafc;
+      --text-body: rgba(248, 250, 252, 0.86);
+      --text-muted: rgba(248, 250, 252, 0.55);
+      --glass-bg: rgba(12, 18, 32, 0.42);
+      --glass-border: rgba(255, 255, 255, 0.16);
+      --transition-slow: 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+      --transition-fast: 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #050811;
+      color: var(--text-light);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ================= BACKGROUND LAYER ================= */
+    .bg-container {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .bg-layer {
+      position: absolute;
+      inset: -4%;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 1.1s ease, transform 1.6s cubic-bezier(0.22, 1, 0.36, 1), filter 1.1s ease;
+      opacity: 0;
+      transform: scale(1.08);
+    }
+
+    .bg-layer.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .bg-container.hero-mode .bg-layer.active {
+      transform: scale(1.04);
+      filter: brightness(0.82) contrast(1.08);
+    }
+
+    .bg-container.reading-mode .bg-layer.active {
+      transform: scale(1.06);
+      filter: brightness(0.28) contrast(1.12) blur(10px);
+    }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 50% 42%, rgba(10, 15, 30, 0.18) 0%, rgba(4, 7, 15, 0.78) 100%),
+        linear-gradient(180deg, rgba(5, 8, 17, 0.65) 0%, rgba(5, 8, 17, 0.12) 45%, rgba(5, 8, 17, 0.92) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ================= TOP HEADER ================= */
+    .top-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 2.2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      z-index: 60;
+      pointer-events: none;
+      transition: padding var(--transition-fast);
+    }
+
+    .brand-cluster {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .brand-bar {
+      width: 3px;
+      height: 38px;
+      background: var(--gold);
+      box-shadow: 0 0 12px var(--gold);
+    }
+
+    .brand-text-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-sub {
+      font-size: 0.66rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .brand-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.15;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      pointer-events: auto;
+    }
+
+    .dua-pill {
+      background: rgba(12, 18, 32, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      padding: 0.45rem 1.2rem;
+      border-radius: 999px;
+      font-family: 'Amiri', serif;
+      font-size: 0.98rem;
+      color: #fde68a;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-icon-top {
+      height: 40px;
+      padding: 0 1.2rem;
+      border-radius: 999px;
+      background: rgba(12, 18, 32, 0.55);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .btn-icon-top:hover {
+      background: var(--gold);
+      color: #050811;
+      border-color: var(--gold);
+    }
+
+    /* ================= CENTER STAGE (CAROUSEL & HERO) ================= */
+    .stage {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .stage.hidden-for-reading {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.96);
+    }
+
+    /* --- CAROUSEL TRACK --- */
+    .carousel-viewport {
+      width: 100%;
+      padding-left: 10vw;
+      overflow: visible;
+      transition: transform var(--transition-slow), opacity var(--transition-slow);
+    }
+
+    .stage.hero-active .carousel-viewport {
+      transform: translateX(48vw) scale(0.92);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cards-track {
+      display: flex;
+      gap: 2.2rem;
+      transition: transform var(--transition-slow);
+      will-change: transform;
+    }
+
+    .course-card {
+      position: relative;
+      width: 295px;
+      height: 400px;
+      flex-shrink: 0;
+      border-radius: 3px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: transform var(--transition-slow), box-shadow var(--transition-slow), border-color var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.8rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      user-select: none;
+    }
+
+    .course-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--card-img);
+      background-size: cover;
+      background-position: center;
+      opacity: 0.5;
+      transition: transform 0.9s ease, opacity 0.6s ease;
+      z-index: 0;
+    }
+
+    .course-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(8, 12, 24, 0.15) 0%, rgba(8, 12, 24, 0.68) 62%, rgba(8, 12, 24, 0.95) 100%);
+      z-index: 1;
+    }
+
+    .course-card:hover {
+      transform: translateY(-10px);
+      border-color: rgba(245, 197, 66, 0.65);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.85), 0 0 25px var(--gold-glow);
+    }
+
+    .course-card:hover::before {
+      transform: scale(1.08);
+      opacity: 0.7;
+    }
+
+    .course-card.active-card {
+      border-color: var(--gold);
+    }
+
+    .card-top, .card-bottom {
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-badge-orb {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: conic-gradient(from 120deg, var(--gold), #d97706, #0f172a, var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: #050811;
+      box-shadow: 0 0 12px rgba(245, 197, 66, 0.45);
+    }
+
+    .card-chapter-count {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .card-level-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+    }
+
+    .card-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 2.2rem;
+      line-height: 1.02;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #fff;
+      margin-bottom: 0.7rem;
+      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.65);
+    }
+
+    .card-subtitle {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.72);
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      padding-top: 0.7rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* --- HERO CENTER OVERLAY --- */
+    .hero-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 2rem;
+      pointer-events: none;
+      opacity: 0;
+      transform: scale(0.94) translateY(15px);
+      transition: opacity var(--transition-slow), transform var(--transition-slow);
+    }
+
+    .stage.hero-active .hero-center {
+      opacity: 1;
+      transform: scale(1) translateY(-18px);
+      pointer-events: auto;
+    }
+
+    .hero-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 1.7rem;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+      text-shadow: 0 2px 15px rgba(0, 0, 0, 0.85);
+    }
+
+    .hero-headline {
+      font-size: clamp(2.5rem, 5.2vw, 4.4rem);
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      color: #fff;
+      text-shadow: 0 10px 35px rgba(0, 0, 0, 0.85);
+      margin-bottom: 1rem;
+    }
+
+    .hero-headline strong {
+      font-weight: 700;
+    }
+
+    .hero-desc {
+      max-width: 650px;
+      font-size: 1rem;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.84);
+      margin-bottom: 2.2rem;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1.1rem;
+      align-items: center;
+    }
+
+    .btn-primary-gold {
+      background: var(--gold);
+      color: #050811;
+      border: none;
+      padding: 0.9rem 2.2rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 0 25px var(--gold-glow);
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .btn-primary-gold:hover {
+      transform: translateY(-2px);
+      background: #ffd65a;
+      box-shadow: 0 0 35px rgba(245, 197, 66, 0.65);
+    }
+
+    .btn-secondary-glass {
+      background: rgba(12, 18, 32, 0.55);
+      backdrop-filter: blur(12px);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 0.9rem 1.7rem;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-secondary-glass:hover {
+      background: rgba(255, 255, 255, 0.14);
+      border-color: #fff;
+    }
+
+    /* Peek Card on Right Edge */
+    .hero-peek-card {
+      position: fixed;
+      right: -195px;
+      top: 50%;
+      transform: translateY(-55%);
+      width: 260px;
+      height: 340px;
+      border-radius: 3px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      z-index: 15;
+      opacity: 0;
+      pointer-events: none;
+      transition: all var(--transition-slow);
+      box-shadow: -15px 20px 45px rgba(0, 0, 0, 0.75);
+    }
+
+    .stage.hero-active .hero-peek-card {
+      right: -140px;
+      opacity: 0.9;
+      pointer-events: auto;
+    }
+
+    .stage.hero-active .hero-peek-card:hover {
+      right: -115px;
+      opacity: 1;
+      border-color: var(--gold);
+    }
+
+    /* ================= BOTTOM HUD ================= */
+    .bottom-hud {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 4rem 2.2rem;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .bottom-hud.hidden-for-reading {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(25px);
+    }
+
+    .pager-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      pointer-events: auto;
+    }
+
+    .pager-num {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.55);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      background: transparent;
+      border: 1px solid transparent;
+    }
+
+    .pager-num:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .pager-num.active {
+      background: var(--gold);
+      color: #050811;
+      box-shadow: 0 0 15px var(--gold-glow);
+      transform: scale(1.1);
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: 220px 220px 240px 1fr;
+      align-items: end;
+      gap: 2.5rem;
+      pointer-events: auto;
+    }
+
+    .metric-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.28rem;
+    }
+
+    .metric-svg {
+      width: 125px;
+      height: 46px;
+      stroke: rgba(255, 255, 255, 0.85);
+      stroke-width: 1.8;
+      fill: none;
+      margin-bottom: 0.2rem;
+    }
+
+    .metric-svg path {
+      stroke-dasharray: 300;
+      stroke-dashoffset: 0;
+      animation: drawLine 1.2s ease forwards;
+    }
+
+    @keyframes drawLine {
+      from { stroke-dashoffset: 300; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    .metric-val {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .metric-val sup {
+      font-size: 0.72rem;
+      color: var(--gold);
+      margin-left: 3px;
+      font-weight: 600;
+    }
+
+    .metric-label {
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .metric-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(245, 197, 66, 0.85);
+    }
+
+    .globe-block {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .globe-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background-size: cover;
+      background-position: center;
+      border: 2px solid rgba(245, 197, 66, 0.6);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .globe-circle::after {
+      content: "";
+      position: absolute;
+      inset: 4px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 255, 255, 0.45);
+    }
+
+    .coords-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .coords-val {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .hud-right {
+      justify-self: end;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.55rem;
+    }
+
+    .maqdisi-badge-btn {
+      background: rgba(245, 197, 66, 0.12);
+      border: 1px solid rgba(245, 197, 66, 0.45);
+      color: var(--gold);
+      padding: 0.55rem 1.2rem;
+      border-radius: 99px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .maqdisi-badge-btn:hover {
+      background: var(--gold);
+      color: #050811;
+    }
+
+    .dots-indicator {
+      display: flex;
+      gap: 0.45rem;
+      align-items: center;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transition: all var(--transition-fast);
+    }
+
+    .dot.active {
+      width: 18px;
+      border-radius: 99px;
+      background: var(--gold);
+    }
+
+    /* ================= CINEMATIC EDITORIAL READING VIEW ================= */
+    /* Sama atmosfernya dengan halaman utama: transparan, lapang, tanpa box padat */
+    .reading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 45;
+      overflow-y: auto;
+      overflow-x: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      scroll-behavior: smooth;
+    }
+
+    .reading-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Custom subtle scrollbar */
+    .reading-overlay::-webkit-scrollbar {
+      width: 6px;
+    }
+    .reading-overlay::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .reading-overlay::-webkit-scrollbar-thumb {
+      background: rgba(245, 197, 66, 0.3);
+      border-radius: 99px;
+    }
+
+    /* Top Sticky Chapter Bar (Floating Glass Pill) */
+    .chapter-nav-sticky {
+      position: sticky;
+      top: 5.8rem;
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+      padding: 0 2rem;
+      pointer-events: none;
+    }
+
+    .chapter-pill-bar {
+      pointer-events: auto;
+      background: rgba(8, 12, 22, 0.68);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      padding: 0.38rem;
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    }
+
+    .chapter-pill-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.62);
+      padding: 0.55rem 1.25rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .chapter-pill-btn:hover {
+      color: #fff;
+    }
+
+    .chapter-pill-btn.active {
+      background: var(--gold);
+      color: #050811;
+      font-weight: 700;
+      box-shadow: 0 0 18px var(--gold-glow);
+    }
+
+    /* Editorial Container */
+    .editorial-container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 9rem 2rem 8rem;
+    }
+
+    /* Chapter Hero Header */
+    .chapter-hero {
+      text-align: center;
+      margin-bottom: 5rem;
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .chapter-kicker {
+      font-size: 0.72rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .chapter-main-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(2.4rem, 4.8vw, 3.8rem);
+      line-height: 1.08;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: #fff;
+      margin-bottom: 2.2rem;
+    }
+
+    .chapter-arabic-banner {
+      margin: 2.2rem auto 0;
+      max-width: 720px;
+      padding: 1.8rem 2rem;
+      border-top: 1px solid rgba(245, 197, 66, 0.3);
+      border-bottom: 1px solid rgba(245, 197, 66, 0.3);
+      background: linear-gradient(90deg, transparent, rgba(245, 197, 66, 0.06), transparent);
+    }
+
+    .chapter-arabic-text {
+      font-family: 'Amiri', serif;
+      font-size: 1.85rem;
+      line-height: 1.85;
+      color: #fde68a;
+      margin-bottom: 0.7rem;
+      direction: rtl;
+    }
+
+    .chapter-quote-meaning {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.65;
+    }
+
+    /* Editorial Sections (Airy, Long-form, Timeless) */
+    .editorial-section {
+      margin-bottom: 4.8rem;
+    }
+
+    .section-index-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .section-num {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
+    .section-line {
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(90deg, rgba(245, 197, 66, 0.45), transparent);
+    }
+
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.85rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 1.4rem;
+      line-height: 1.2;
+    }
+
+    .editorial-prose p {
+      font-size: 1.06rem;
+      line-height: 1.92;
+      color: var(--text-body);
+      margin-bottom: 1.45rem;
+      font-weight: 400;
+    }
+
+    .editorial-prose strong {
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .editorial-prose em {
+      color: #fde68a;
+      font-style: italic;
+    }
+
+    /* Pullquote / Highlight Callout */
+    .editorial-callout {
+      margin: 2.4rem 0;
+      padding: 1.6rem 0 1.6rem 2rem;
+      border-left: 2px solid var(--gold);
+      background: linear-gradient(90deg, rgba(245, 197, 66, 0.07), transparent);
+    }
+
+    .editorial-callout .callout-arabic {
+      font-family: 'Amiri', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 0.4rem;
+      direction: rtl;
+      text-align: left;
+    }
+
+    .editorial-callout p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #fff;
+      margin-bottom: 0;
+      font-weight: 500;
+    }
+
+    /* Minimalist Architectural Pillars (Replaces bulky AI cards) */
+    .pillars-list {
+      margin: 2.5rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .pillar-row {
+      display: grid;
+      grid-template-columns: 70px 240px 1fr;
+      gap: 1.8rem;
+      padding: 1.8rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      align-items: baseline;
+    }
+
+    .pillar-idx {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.35rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+    }
+
+    .pillar-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #fff;
+    }
+
+    .pillar-detail {
+      font-size: 0.98rem;
+      line-height: 1.8;
+      color: var(--text-body);
+    }
+
+    /* Minimalist Interactive Reflection & Quiz at Bottom of Chapter */
+    .reflection-sanctuary {
+      margin-top: 5.5rem;
+      padding-top: 3.5rem;
+      border-top: 1px solid rgba(245, 197, 66, 0.35);
+    }
+
+    .sanctuary-kicker {
+      font-size: 0.7rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+      display: block;
+      font-weight: 700;
+    }
+
+    .sanctuary-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 1.2rem;
+    }
+
+    .quiz-minimal-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin: 1.5rem 0 3rem;
+    }
+
+    .quiz-min-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-light);
+      padding: 1.1rem 1.4rem;
+      border-radius: 4px;
+      text-align: left;
+      font-family: inherit;
+      font-size: 0.96rem;
+      line-height: 1.5;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .quiz-min-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(245, 197, 66, 0.5);
+    }
+
+    .quiz-min-btn.correct {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: #10b981;
+      color: #a7f3d0;
+    }
+
+    .quiz-min-btn.wrong {
+      background: rgba(239, 68, 68, 0.18);
+      border-color: #ef4444;
+      color: #fecaca;
+    }
+
+    .journal-input {
+      width: 100%;
+      min-height: 130px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 4px;
+      padding: 1.2rem;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.98rem;
+      line-height: 1.7;
+      margin-top: 1rem;
+      resize: vertical;
+      transition: border-color var(--transition-fast);
+    }
+
+    .journal-input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .chapter-footer-nav {
+      margin-top: 4rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .top-bar { padding: 1.4rem 1.8rem; }
+      .dua-pill { display: none; }
+      .bottom-hud { padding: 1.2rem 1.8rem; }
+      .metrics-grid { grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+      .pillar-row { grid-template-columns: 1fr; gap: 0.4rem; }
+      .editorial-container { padding: 7.5rem 1.4rem 6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= DYNAMIC BACKGROUND LAYERS ================= -->
+  <div class="bg-container" id="bgContainer">
+    <div class="bg-layer active" id="bgLayer0" style="background-image: url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=2000&q=85');"></div>
+    <div class="bg-layer" id="bgLayer1" style="background-image: url('https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=2000&q=85');"></div>
+    <div class="bg-layer" id="bgLayer2" style="background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=2000&q=85');"></div>
+    <div class="bg-layer" id="bgLayer3" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2000&q=85');"></div>
+    <div class="bg-layer" id="bgLayer4" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2000&q=85');"></div>
+    <div class="bg-overlay"></div>
+  </div>
+
+  <!-- ================= TOP HEADER ================= -->
+  <header class="top-bar">
+    <div class="brand-cluster" onclick="returnToMainStage()">
+      <div class="brand-bar"></div>
+      <div class="brand-text-wrap">
+        <span class="brand-sub" id="topRegionLabel">BAITUL MAQDIS PROJECT</span>
+        <span class="brand-title" id="topMainTitle">ENSIKLOPEDIA STRATEGIS</span>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <div class="dua-pill">
+        <span>اللهم إنا نسألك صلاة في المسجد الأقصى وهو حر عزيز</span>
+      </div>
+      <button class="btn-icon-top" id="btnCloseOverlay" onclick="handleTopClose()" style="display: none;">
+        <span>✕</span>
+        <span id="btnCloseText">KEMBALI</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= MAIN STAGE (CAROUSEL & HERO) ================= -->
+  <main class="stage" id="mainStage">
+    
+    <!-- CAROUSEL TRACK -->
+    <div class="carousel-viewport">
+      <div class="cards-track" id="cardsTrack"></div>
+    </div>
+
+    <!-- HERO EXPANDED MODE -->
+    <div class="hero-center" id="heroCenter">
+      <div class="hero-arabic" id="heroArabic">الإعداد المعرفي</div>
+      <h1 class="hero-headline" id="heroHeadline">Membebaskan Akal <strong>Dengan Ilmu</strong></h1>
+      <p class="hero-desc" id="heroDesc"></p>
+      <div class="hero-cta-group">
+        <button class="btn-primary-gold" onclick="openReadingView()">
+          <span>Eksplorasi Bab Keilmuan</span>
+          <span>→</span>
+        </button>
+        <button class="btn-secondary-glass" onclick="exitHeroMode()">
+          Semua Bagian
+        </button>
+      </div>
+    </div>
+
+    <!-- PEEK CARD ON RIGHT EDGE -->
+    <div class="hero-peek-card" id="heroPeekCard" onclick="nextLevelInHero()">
+      <div class="card-top">
+        <div class="card-badge-orb" id="peekOrb">2</div>
+        <span class="card-chapter-count">SELANJUTNYA →</span>
+      </div>
+      <div class="card-bottom">
+        <div class="card-level-tag" id="peekTag">BAGIAN 02</div>
+        <div class="card-title" id="peekTitle" style="font-size: 1.65rem;">LINGKARAN KEBERKAHAN</div>
+        <div class="card-subtitle" id="peekSub">GEOPOLITIK ISLAM</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= BOTTOM HUD ================= -->
+  <footer class="bottom-hud" id="bottomHud">
+    <div class="pager-row" id="pagerRow"></div>
+
+    <div class="metrics-grid">
+      <div class="metric-block">
+        <svg class="metric-svg" viewBox="0 0 140 50">
+          <path id="svgMapPath" d="M12,38 C28,14 55,10 78,24 C98,35 115,12 130,18 C122,38 88,44 52,40 Z" />
+        </svg>
+        <div class="metric-val" id="metric1Val">23<sup>THN</sup></div>
+        <div class="metric-label" id="metric1Label">FASE I'DAD MA'RIFI NABAWI</div>
+        <div class="metric-sub" id="metric1Sub">MAKKAH & MADINAH</div>
+      </div>
+
+      <div class="metric-block">
+        <svg class="metric-svg" viewBox="0 0 140 50">
+          <path id="svgCurvePath" d="M8,42 L32,36 L58,22 L84,26 L112,10 L132,6" />
+          <circle cx="132" cy="6" r="3" fill="#f5c542" />
+        </svg>
+        <div class="metric-val" id="metric2Val">28<sup>THN</sup></div>
+        <div class="metric-label" id="metric2Label">TOTAL HORIZON PERSIAPAN</div>
+        <div class="metric-sub" id="metric2Sub">HINGGA PEMBEBASAN UMAR</div>
+      </div>
+
+      <div class="globe-block">
+        <div class="globe-circle" id="hudGlobeImg"></div>
+        <div class="coords-text">
+          <div class="coords-val" id="coordText">31.7761° N, 35.2358° E</div>
+          <div class="metric-label" id="coordPlace">MASJID AL-AQSHA • SYAM</div>
+          <div class="metric-sub" id="coordRole">PUSAT KEBERKAHAN DUNIA</div>
+        </div>
+      </div>
+
+      <div class="hud-right">
+        <button class="maqdisi-badge-btn" onclick="openReadingView()">
+          <span>MASUKI RUANG BACA →</span>
+        </button>
+        <div class="dots-indicator" id="dotsIndicator"></div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= CINEMATIC EDITORIAL READING VIEW ================= -->
+  <section class="reading-overlay" id="readingOverlay">
+    <div class="chapter-nav-sticky">
+      <div class="chapter-pill-bar" id="chapterPillBar"></div>
+    </div>
+
+    <div class="editorial-container" id="editorialContainer">
+      <!-- Deep, timeless long-form content injected via JS -->
+    </div>
+  </section>
+
+  <!-- ================= DATA & APPLICATION SCRIPT ================= -->
+  <script>
+    const levelsData = [
+      {
+        id: 0,
+        code: "BAGIAN 01 • FONDASI",
+        cardTitle: "AL-I'DAD\nAL-MA'RIFI",
+        cardSub: "PERSIAPAN PENGETAHUAN",
+        regionHeader: "PILAR KEILMUAN & PETA JALAN NABAWI",
+        arabicTag: "تحرير العقل قبل تحرير الأرض",
+        heroHeadline: "Membebaskan Akal <strong>Sebelum Tanah Suci</strong>",
+        heroDesc: "Mengapa 108 tahun penjajahan atas Baitul Maqdis belum berakhir, padahal generasi Shalahuddin hanya membutuhkan 88 tahun di tengah kondisi politik yang jauh lebih terpecah? Jawabannya terletak pada diagnosis akar penyakit umat dan persiapan ilmu pengetahuan.",
+        cardImg: "url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?auto=format&fit=crop&w=900&q=80')",
+        metric1Val: "23",
+        metric1Unit: "THN",
+        metric1Label: "PERSIAPAN ILMU RASULULLAH",
+        metric1Sub: "13 THN MAKKAH + 10 THN MADINAH",
+        metric2Val: "88",
+        metric2Unit: "THN",
+        metric2Label: "ERA SHALAHUDDIN AL-AYYUBI",
+        metric2Sub: "VS 108+ TAHUN PENJAJAHAN KINI",
+        svgMap: "M10,38 C32,12 60,15 85,28 C105,38 118,10 134,20 C120,42 82,46 40,42 Z",
+        svgCurve: "M8,44 L35,38 L62,25 L92,18 L118,9 L134,5",
+        coords: "31.7761° N, 35.2358° E",
+        coordPlace: "AL-ARDHUL MUQADDASAH",
+        coordRole: "AQIDAH & SENTRAL KEBERKAHAN",
+        chapters: [
+          {
+            pillName: "01. Diagnosis Umat",
+            kicker: "BAB 01 • FONDASI & DIAGNOSIS MASALAH",
+            title: "Mengapa 108 Tahun Belum Merdeka? Membedah Penyakit Utama Umat",
+            arabic: "لاتظنوا أني فتحت البلاد بسيوفكم إنما فتحتها بقلم القاضي الفاضل",
+            quoteMeaning: "“Jangan kalian kira aku membebaskan negeri ini dengan pedang-pedang kalian, sesungguhnya aku membebaskannya dengan pena Al-Qadhi Al-Fadhil.” — Shalahuddin Al-Ayyubi",
+            sections: [
+              {
+                num: "01",
+                heading: "Tajdidun Niyat & Konsep Ilmu yang Hidup (Al-'Ilmul Hayy)",
+                body: `
+                  <p>Langkah paling fundamental sebelum memasuki seluruh bangunan keilmuan Baitul Maqdis adalah <strong>memperbaharui niat (Tajdidun Niyat)</strong>. Rasulullah ﷺ menegaskan bahwa setiap amal bergantung pada niatnya. Para ulama menggariskan sebuah kaidah penting: apabila niatnya <em>salim</em> (selamat, lurus, dan murni), maka amalnya pun akan <em>salim</em>; sebaliknya jika niatnya <em>bathil</em>, maka seluruh bangunan amalnya ikut runtuh.</p>
+                  <p>Mempelajari Baitul Maqdis tidak boleh didorong oleh fanatisme kelompok, emosi sesaat, atau sekadar keingintahuan akademis, melainkan diniatkan sebagai <em>rihlah fi sabilillah</em>—perjalanan menuntut ilmu untuk menyiapkan pembebasan Masjid Al-Aqsha sesuai peta jalan (<em>roadmap</em>) Rasulullah ﷺ demi menggapai <strong>Ridha Allah (Fauzul 'Azhim)</strong>.</p>
+                  <p>Ilmu yang dipelajari harus menjadi <em>Al-'Ilmul Hayy</em> (ilmu yang hidup dan menghidupkan). Karena tugas membebaskan Baitul Maqdis adalah amanah yang sangat berat (<em>Qaulan Tsaqila</em> - QS Al-Muzzammil: 5), energi utamanya tidak cukup hanya dengan diskusi intelektual, tetapi harus ditopang oleh <strong>Qiyamul Lail dan Shalat Subuh berjamaah</strong>. Syaikh Yusuf Al-Qaradhawi mengingatkan bahwa siapa yang belum mampu mengalahkan selimut dan setannya sendiri untuk bangun Subuh berjamaah, mustahil mampu mengalahkan penjajah dan sekutu-sekutunya.</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Paradoks 88 Tahun vs 108 Tahun & Analogi Paracetamol",
+                body: `
+                  <p>Sebuah pertanyaan besar yang harus direnungkan setiap Muslim: <strong>Mengapa pada era Perang Salib umat Islam hanya membutuhkan waktu 88 tahun untuk merebut kembali Baitul Maqdis, sementara hari ini—setelah lebih dari 108 tahun sejak penjajahan Inggris (1917) dan Zionis (1948)—kita belum kunjung membebaskannya?</strong> Padahal secara internal maupun eksternal, kondisi dunia Islam di zaman sebelum Shalahuddin jauh lebih buruk dan terpecah-belah (bahkan di Suriah saja saat itu setiap kota seperti Homs dan Aleppo menjadi kerajaan sendiri yang saling berperang).</p>
+                  <div class="editorial-callout">
+                    <div class="callout-arabic">اكتشاف المشكلة نصف الحل</div>
+                    <p>“Memahami hakikat permasalahan dengan tepat adalah setengah dari solusi.” Perbedaan utama generasi Shalahuddin dengan generasi kita hari ini hanya satu: mereka mengetahui dengan akurat apa penyakit umatnya, sedangkan permasalahan utama umat hari ini adalah <strong>tidak mengetahui apa permasalahannya</strong>.</p>
+                  </div>
+                  <p>Bayangkan seseorang yang menderita penyakit kanker stadium lanjut, namun ia justru pergi ke bengkel mobil dan hanya diberi obat <em>paracetamol</em>. Apakah ia akan sembuh? Tentu tidak. Selama puluhan tahun kita telah melakukan demonstrasi, mengirim donasi, dan memboikot, lalu kita merasa tenang seolah-olah kewajiban kita telah gugur. Semua aksi tersebut baik dan perlu, namun jika dilakukan tanpa memahami akar masalah dan tanpa peta jalan strategis, itu ibarat mengobati kanker hanya dengan paracetamol.</p>
+                `
+              },
+              {
+                num: "03",
+                heading: "Transformasi Makna Gelar 'Al-Maqdisi' & Diseminasi Ilmu",
+                body: `
+                  <p>Dahulu ketika Baitul Maqdis berada dalam pangkuan Islam, gelar <strong>Al-Maqdisi</strong> diberikan berdasarkan pertimbangan geografis—yaitu kepada siapa saja yang lahir, tinggal, atau bekerja di Baitul Maqdis. Namun ketika tanah suci itu terjajah, definisi geografis tidak lagi memadai.</p>
+                  <p>Definisi tersebut kemudian berkembang secara konseptual (<em>fi ithar an-nazhari</em>) menjadi setiap Muslim yang di dalam hati dan akalnya terdapat kecintaan pada Baitul Maqdis. Akan tetapi, kecintaan di hati saja belum mengubah realitas lapangan. Karena itu, definisi <strong>Al-Maqdisi</strong> dikerucutkan ke dalam tataran praksis (<em>fi ithar 'amali</em>): <strong>Setiap Muslim—di mana pun ia berada, termasuk di Indonesia—yang mencintai Baitul Maqdis di hati dan akalnya, serta bekerja dan beraksi nyata dengan menyebarkan ilmu untuk pembebasannya.</strong></p>
+                  <p>Imam Abdullah ibn Al-Mubarak—seorang ulama besar sekaligus mujahid di medan perang—berkata: <em>“Aku tidak mengetahui suatu derajat yang lebih mulia setelah kenabian selain menyebarkan ilmu pengetahuan (Bathsul 'Ilmi).”</em></p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Mengapa generasi Shalahuddin mampu membebaskan Baitul Maqdis dalam 88 tahun meski kondisi politiknya lebih terpecah dibanding 108 tahun masa kita saat ini?",
+              options: [
+                "Karena generasi Shalahuddin mendiagnosis akar permasalahan umat secara akurat dan memulainya dengan persiapan ilmu (pena Al-Qadhi Al-Fadhil), bukan sekadar reaksi sesaat",
+                "Karena pasukan Salib saat itu menyerah secara sukarela tanpa peperangan",
+                "Karena jumlah penduduk Muslim saat itu jauh lebih banyak daripada hari ini"
+              ],
+              answer: 0
+            }
+          },
+          {
+            pillName: "02. Penjajahan Akal",
+            kicker: "BAB 02 • ANATOMI TIGA TINGKATAN PENYAKIT UMAT",
+            title: "Malapetaka Pengetahuan, Penjajahan Akal & Perbudakan Pemikiran",
+            arabic: "تحرير العقل قبل تحرير الأرض",
+            quoteMeaning: "“Sebelum mereka menjajah Masjid Al-Aqsha dan tanah suci Baitul Maqdis secara militer, mereka terlebih dahulu menjajah akal kaum Muslimin.”",
+            sections: [
+              {
+                num: "01",
+                heading: "Tiga Tingkatan (Mustawayat) Akar Masalah Umat",
+                body: `
+                  <p>Perpecahan negara-negara Muslim, penyakit <em>wahn</em> (cinta dunia dan takut mati), serta egoisme kelompok hanyalah gejala permukaan. Jika kita menggali lebih dalam ke bawah akar (<em>jadzr</em>), kita akan menemukan bahwa akar dari segala krisis umat ini terbagi ke dalam tiga tingkatan keparahan:</p>
+                  <div class="pillars-list">
+                    <div class="pillar-row">
+                      <div class="pillar-idx">LVL 01</div>
+                      <div class="pillar-name">An-Nakbah Al-Ma'rifiyyah<br><span style="font-size:0.75rem; color:var(--gold);">النكبة المعرفية</span></div>
+                      <div class="pillar-detail"><strong>Malapetaka Pengetahuan (Intellectual Crisis):</strong> Dunia mengenal istilah 'Nakbah' sebagai tragedi militer dan politik tahun 1948. Padahal jauh sebelum tanah Palestina dirampas pada 1948, umat Islam telah mengalami malapetaka krisis keilmuan dan kaburnya pemahaman terhadap agamanya sendiri.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">LVL 02</div>
+                      <div class="pillar-name">Ihtilal 'Aqlil Muslim<br><span style="font-size:0.75rem; color:var(--gold);">احتلال عقل المسلم</span></div>
+                      <div class="pillar-detail"><strong>Penjajahan Akal Muslim (Occupation of Muslim's Mind):</strong> Tingkatan yang lebih berbahaya, di mana nama luarnya masih tampak Islami (seperti Abdul Fattah, Ahmad, atau Muhammad), namun cara berpikir, standar nilai, dan kacamata analisis di dalam kepalanya sepenuhnya dikendalikan oleh Barat.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">LVL 03</div>
+                      <div class="pillar-name">Al-'Ubudiyyah Al-Fikriyyah<br><span style="font-size:0.75rem; color:var(--gold);">العبدية الفكرية</span></div>
+                      <div class="pillar-detail"><strong>Perbudakan Pemikiran (Intellectual Slavery):</strong> Stadium paling akut ketika seseorang atau suatu rezim telah menghamba sepenuhnya pada kerangka berpikir penjajah—patuh mutlak pada garis batas, dikte politik, dan kepentingan materi yang ditetapkan tuan kolonialnya.</div>
+                    </div>
+                  </div>
+                `
+              },
+              {
+                num: "02",
+                heading: "Bukti Sejarah Penjajahan Akal: Runtuhnya Utsmani & Terpecahnya Syam",
+                body: `
+                  <p>Imperium Inggris sangat menyadari bahwa selama Khilafah Utsmaniyah masih berdiri dan umat Islam bersatu, mustahil mereka dapat menancapkan penjajahan di Baitul Maqdis. Bagaimana cara mereka meruntuhkannya? Bukan langsung dengan invasi militer, melainkan dengan <strong>menjajah akal tokoh-tokoh Muslim</strong>.</p>
+                  <p>Berdasarkan dokumen arsip resmi Inggris, intelijen Barat mendekati Syarif Makkah, Husain bin Ali, dengan memainkan sentimen garis keturunan: <em>"Bukankah kakekmu Muhammad ﷺ bersabda bahwa khalifah itu dari Quraisy? Mengapa engkau membiarkan orang-orang Turki Utsmani merampas hakmu?"</em> Akal yang terjajah membuat Syarif Husain terperdaya hingga memimpin Revolusi Arab bersama Inggris untuk menikam Utsmani dari belakang. Ironisnya, ketika Jenderal Inggris Lord Allenby memasuki Baitul Maqdis pada tahun 1917, ia justru disambut oleh mufti setempat, bahkan ada lulusan Al-Azhar kala itu yang menulis artikel menyamakan toleransi penjajah Allenby dengan Amirul Mu'minin Umar bin Khattab!</p>
+                  <p>Melalui Perjanjian <strong>Sykes-Picot</strong> dan <strong>Deklarasi Balfour</strong>, wilayah Syam yang tadinya satu kesatuan utuh (dari Tabuk hingga perbatasan Turki) dipecah-belah menjadi Yordania, Suriah, Lebanon, dan Palestina. Akibat penjajahan akal ini, tumbuhlah penyakit lokalisasi masalah: orang Yordania, Suriah, hingga Muslim di negeri jauh merasa bahwa Masjid Al-Aqsha hanyalah "urusan lokal warga Palestina". Bahkan di satu titik perbatasan yang sama di bumi Syam, empat negara tersebut bisa memulai hari puasa Ramadhan di hari yang berbeda karena lebih mensakralkan garis batas kolonial daripada syariat Allah.</p>
+                `
+              },
+              {
+                num: "03",
+                heading: "Meluruskan Distorsi Literasi & Tafsir QS Al-Maidah: 20–26",
+                body: `
+                  <p>Penjajahan akal juga beroperasi melalui infiltrasi istilah dan pemalsuan literasi. Banyak kaum Muslimin tanpa sadar ikut menyebut <strong>Ha'ith Al-Buraq (حائط البراق — Tembok Buraq)</strong> tempat Rasulullah ﷺ mengikatkan Buraq saat Isra' Mi'raj dengan sebutan Zionis <em>"Tembok Ratapan" (Ha'ith Al-Mabka)</em>. Demikian pula penggunaan istilah <em>"The Promised Land"</em>, padahal Al-Qur'an mengajarkan istilah <strong>Al-Ardhul Muqaddasah</strong> (Tanah yang Disucikan) dan <strong>Al-Ardhul Mubarakah</strong> (Tanah yang Diberkahi).</p>
+                  <div class="editorial-callout">
+                    <div class="callout-arabic">يَا قَوْمِ ادْخُلُوا الْأَرْضَ الْمُقَدَّسَةَ الَّتِي كَتَبَ اللَّهُ لَكُمْ</div>
+                    <p>“Wahai kaumku! Masuklah ke tanah suci yang telah ditentukan (diwajibkan) Allah bagimu, dan janganlah kamu berbalik ke belakang (karena takut kepada musuh), nanti kamu menjadi orang-orang yang rugi.” (QS. Al-Maidah: 21)</p>
+                  </div>
+                  <p>Sebagian orang yang lemah penguasaan bahasa Arabnya terkecoh mengira kalimat <em>"KatabaAllahu lakum"</em> bermakna Allah memberikan sertifikat kepemilikan abadi tanah suci itu kepada Yahudi. Padahal secara gramatikal dan tafsir, maknanya adalah <em>"KatabaAllahu lakum dukhulaha"</em> (Allah mewajibkan kalian memasukinya untuk berjihad membebaskannya). Namun ketika Bani Israil membangkang dengan kurang ajar kepada Nabi Musa (<em>"Pergilah engkau bersama Tuhanmu, dan berperanglah kamu berdua!"</em>), Allah langsung menurunkan vonis di ayat ke-26: <strong>"Fainnaha muharramatun 'alaihim" (Maka sesungguhnya tanah suci itu diharamkan atas mereka)</strong>—di mana para ulama menetapkan tanda <em>waqaf lazim</em> (berhenti mutlak) pada kalimat tersebut.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Apa makna sebenarnya dari frasa 'Allati katabaAllahu lakum' dalam QS Al-Maidah: 21 dan bagaimana status akhirnya di ayat 26?",
+              options: [
+                "Bermakna perintah wajib memasukinya untuk berjuang (bukan hak milik abadi), dan karena Bani Israil membangkang, Allah mengharamkan tanah suci itu atas mereka (Muharramatun 'alaihim)",
+                "Bermakna pemberian tanah selamanya tanpa syarat kepada Bani Israil",
+                "Bermakna perintah membangun kuil di Gunung Sinai"
+              ],
+              answer: 0
+            }
+          },
+          {
+            pillName: "03. Ilmu vs Ma'rifah",
+            kicker: "BAB 03 • OBAT PENYAKIT UMAT & TERMINOLOGI NABAWI",
+            title: "Perbedaan Ilmu dan Ma'rifah serta Pondasi Terminologi Baitul Maqdis",
+            arabic: "العِلْمُ هُوَ الْفَهْمُ، أَمَّا الْمَعْرِفَةُ فَهِيَ الْإِدْرَاكُ",
+            quoteMeaning: "“Ilmu adalah memahami hakikat (Understanding), sedangkan Ma'rifah adalah menyadari hakikat secara utuh hingga melahirkan gerak (Realization).” — Sayyid Qutb dalam Afrah Ar-Ruh",
+            sections: [
+              {
+                num: "01",
+                heading: "Wahyu Pertama (Iqra') & Dua Obat Utama: Ilmu dan Ma'rifah",
+                body: `
+                  <p>Obat dari ketiga tingkatan penyakit akal umat kita terangkum dalam dua kata: <strong>Ilmu dan Ma'rifah</strong>. Ketika wahyu pertama turun di Gua Hira (QS Al-'Alaq: 1–5), Allah tidak menurunkan perintah perang, jihad fisik, puasa, atau zakat, melainkan perintah <strong>"Iqra'!" (Bacalah!)</strong> yang diulang dua kali, disusul perintah bertafakkur dan menulis dengan pena (<em>Al-Qalam</em>). Kita adalah umat membaca (<em>Ummah Iqra'</em>), namun tragedi terbesar kita adalah sedikit sekali buku dan literatur mendalam tentang Baitul Maqdis yang telah kita baca.</p>
+                  <p>Setelah bertahun-tahun menelaah berbagai kitab filsafat untuk mencari perbedaan antara <em>Ilmu</em> dan <em>Ma'rifah</em>, Prof. Abd al-Fattah menemukan jawabannya di dalam sebuah risalah kecil karya Sayyid Qutb berjudul <em>Afrah Ar-Ruh</em>: <strong>Ilmu adalah Al-Fahm (pemahaman di tingkat kognitif/luar)</strong> yang bisa diukur dengan ijazah akademik (S1, S2, S3). Sedangkan <strong>Ma'rifah adalah Al-Idrak (kesadaran hakiki yang menghujam ke inti jiwa)</strong> yang menggerakkan seluruh kesadaran dan amal seseorang. Seluruh generasi Sahabat mencapai derajat <em>Ma'rifah</em> ini.</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Enam Anak Tangga Menuju Strategic Thinking & Planning",
+                body: `
+                  <p>Untuk beranjak dari sekadar informasi menuju perencanaan strategis pembebasan, akal umat harus meniti 6 tahapan metodologis secara berurutan:</p>
+                  <div class="pillars-list">
+                    <div class="pillar-row">
+                      <div class="pillar-idx">01</div>
+                      <div class="pillar-name">Accurate Description<br><span style="font-size:0.75rem; color:var(--gold);">الوصف الدقيق</span></div>
+                      <div class="pillar-detail">Deskripsi yang presisi dan jujur. Contoh: Apa yang terjadi di Gaza bukanlah "perang dua pihak", melainkan <strong>Genosida</strong>. Apa yang terjadi di Masjid Al-Aqsha adalah <strong>Penjajahan (Ihtilal)</strong>. Jika fondasi deskripsinya salah, seluruh bangunan analisis di atasnya pasti salah.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">02</div>
+                      <div class="pillar-name">Explanation<br><span style="font-size:0.75rem; color:var(--gold);">التفسير السببي</span></div>
+                      <div class="pillar-detail">Menjelaskan hubungan sebab-akibat (kausalitas): Mengapa genosida itu dilakukan? Karena agenda inti Zionis adalah meruntuhkan Masjid Al-Aqsha dan mendirikan <em>Haykal</em> di atasnya.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">03</div>
+                      <div class="pillar-name">Understanding (Ilmu)<br><span style="font-size:0.75rem; color:var(--gold);">الفهم • العلم</span></div>
+                      <div class="pillar-detail">Tahap pemahaman ilmiah. <em>Garis merah tragedi dunia Islam selama 100 tahun terakhir adalah kita berhenti di tahap ke-3 ini dan tidak mampu naik ke tahap ke-4.</em></div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">04</div>
+                      <div class="pillar-name">Interpretation<br><span style="font-size:0.75rem; color:var(--gold);">التأويل</span></div>
+                      <div class="pillar-detail">Tahap penafsiran strategis. Syarat mutlaknya adalah memiliki <strong>Theoretical Framework (Kerangka Teori)</strong> mandiri yang lahir dari rahim Islam, bukan meminjam kacamata teori kolonial Barat.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">05</div>
+                      <div class="pillar-name">Al-Idrak (Ma'rifah)<br><span style="font-size:0.75rem; color:var(--gold);">الإدراك • المعرفة</span></div>
+                      <div class="pillar-detail">Kesadaran penuh terhadap hakikat persoalan yang dicapai melalui keikhlasan, istiqomah, pembacaan tiada henti, dan spesialisasi keilmuan (<em>Takhassus</em>).</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">06</div>
+                      <div class="pillar-name">Direction (Taujih)<br><span style="font-size:0.75rem; color:var(--gold);">التوجيه والتخطيط</span></div>
+                      <div class="pillar-detail">Kemampuan memberi komando dan menyusun <em>Strategic Planning</em>, sebagaimana dua pemuda yang mencapai derajat <em>Idrak</em> di zaman Nabi Musa yang menyeru: <em>"Udkhulul baab!" (Masuklah kalian melalui gerbang kota itu!)</em> (QS Al-Maidah: 23).</div>
+                    </div>
+                  </div>
+                `
+              },
+              {
+                num: "03",
+                heading: "Revolusi Terminologi Rasulullah ﷺ: Mengganti 'Iliya' Menjadi 'Baitul Maqdis'",
+                body: `
+                  <p>Pondasi pertama yang diletakkan Rasulullah ﷺ dalam perencanaan pembebasan adalah <strong>mencetuskan terminologi baru yang Islami</strong>. Sebelum Islam datang, kota tersebut dinamai <em>Iliya</em> (nama dan identitas Romawi). Sebagaimana Nabi ﷺ mengubah nama <em>Yatsrib</em> menjadi <em>Al-Madinah</em>, beliau mengganti nama <em>Iliya</em> dengan istilah nabawi yang belum pernah digunakan sebelumnya: <strong>Baitul Maqdis (بيت المقدس)</strong>.</p>
+                  <p>Mengapa beliau memilih diksi <strong>"Bait" (Rumah)</strong> dan <strong>"Al-Maqdis / Al-Muthahhar" (Yang Disucikan)</strong>? Kata <em>"Bait"</em> menanamkan <em>sense of belonging</em> (rasa kepemilikan batin) yang mendalam: bahwa Baitul Maqdis adalah rumahku, rumahmu, dan rumah setiap Muslim yang wajib dijaga kesuciannya dari najis penjajahan. Adapun istilah <em>"Jerusalem"</em> bukanlah istilah Islam—ketika seseorang di Barat memperkenalkan diri berasal dari "Jerusalem", orang Eropa langsung mengasosiasikannya sebagai orang Yahudi. Menghidupkan terminologi <strong>Baitul Maqdis</strong>, <strong>Al-Ardhul Muqaddasah</strong>, dan <strong>Al-Ardhul Mubarakah</strong> adalah bagian dari persiapan kekuatan lunak (<em>Soft Power / Quwwah</em> - QS Al-Anfal: 60).</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Mengapa Rasulullah ﷺ secara khusus mencetuskan istilah 'Baitul Maqdis' untuk menggantikan nama Romawi 'Iliya'?",
+              options: [
+                "Agar lebih mudah diucapkan oleh pedagang Romawi",
+                "Kata 'Bait' (Rumah) menanamkan rasa memiliki bahwa itu adalah rumah setiap Muslim, dan 'Al-Maqdis' bermakna tempat suci yang wajib dibersihkan dari najis penjajahan",
+                "Karena mengikuti penamaan dari tradisi Persia"
+              ],
+              answer: 1
+            }
+          },
+          {
+            pillName: "04. Roadmap Nabawi",
+            kicker: "BAB 04 • INTEGRASI AL-QUR'AN & SIRAH NABAWIYAH",
+            title: "Perhatian Al-Qur'an, Fase Makkah-Madinah & Strategi Politik-Militer Nabi ﷺ",
+            arabic: "وَهُزِّي إِلَيْكِ بِجِذْعِ النَّخْلَةِ تُسَاقِطْ عَلَيْكِ رُطَبًا جَنِيًّا",
+            quoteMeaning: "“Dan goyangkanlah pangkal pohon kurma itu ke arahmu, niscaya pohon itu akan menggugurkan buah kurma yang masak kepadamu.” (QS. Maryam: 25)",
+            sections: [
+              {
+                num: "01",
+                heading: "Kiblat Pertama (14,5 Tahun), Sepertiga Al-Qur'an & Keteladanan Maryam",
+                body: `
+                  <p>Melalui riset puluhan tahun menyusun kepingan Sirah Nabawiyah, terlihat jelas bahwa Rasulullah ﷺ menjalankan tiga pilar persiapan pembebasan: <strong>(1) Persiapan Pengetahuan (Al-I'dad Al-Ma'rifi), (2) Persiapan Politik (As-Siyasi), dan (3) Persiapan Militer (Al-'Askari)</strong>. Persiapan pengetahuan bahkan telah dimulai sejak wahyu kedua turun (QS Al-Muzzammil), di mana Rasulullah ﷺ dan para sahabat generasi awal melaksanakan shalat malam menghadap ke <strong>Masjid Al-Aqsha selama 14,5 tahun</strong> (13 tahun di Makkah ditambah 16–17 bulan di Madinah).</p>
+                  <p>Lebih jauh lagi, sekitar <strong>sepertiga kandungan Al-Qur'an</strong> berkaitan erat dengan Baitul Maqdis (melalui kisah Nabi Ibrahim, Luth, Dawud, Sulaiman, Zakariyya, Yahya, Maryam, hingga Isa 'alaihimussalam), dan mayoritasnya adalah ayat-ayat <strong>Makkiyyah</strong>. Ini membuktikan secara mutlak bahwa Baitul Maqdis adalah <strong>isu Aqidah setiap Muslim</strong>. Dalam Surah At-Tiin, Allah bersumpah dengan <em>At-Tiin waz-Zaytun</em> (simbol agung Baitul Maqdis), <em>Thuur Siniin</em> (Sinai/Mesir), dan <em>Al-Baladil Amiin</em> (Makkah).</p>
+                  <p>Tadabburilah pula Surah Maryam yang berlatar di sekitar Masjid Al-Aqsha. Di dekat Al-Aqsha terdapat mata air suci <strong>Sariyya</strong> (pasangan mata air Zamzam di Makkah yang disebut langsung di dalam Al-Qur'an). Ketika Maryam berada dalam puncak kelemahan fisik dan guncangan batin pasca melahirkan, Allah tetap memerintahkannya menggoyangkan batang pohon kurma yang kering (<em>Wa huzzi ilaiki bi jidz'in nakhlah</em>). Pelajaran strategisnya sangat jelas: <strong>Ibda' bil 'amal (Mulailah beraksi dan bergerak)!</strong> Sekecil apa pun daya kita hari ini, goyangkanlah batang pohon perjuangan itu dengan persiapan ilmu, niscaya Allah yang akan meruntuhkan buah-buah kemenangan (<em>tusaqith</em>).</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Fase Makkah (Isra' Mi'raj) & 4 Pilar Budaya Baitul Maqdis di Madinah",
+                body: `
+                  <p>Di Makkah, setelah Nabi ﷺ melewati ujian berlapis-lapis—3 tahun pemboikotan kejam di lembah Syi'ib Abi Thalib, wafatnya pelindung politik beliau (Abu Thalib), wafatnya belahan jiwa dan penyokong utama dakwah (Khadijah radhiyallahu 'anha), hingga pengusiran berdarah di Thaif yang melahirkan doa pengaduan paling menyentuh langit—Allah menganugerahkan hadiah teragung: <strong>Isra' Mi'raj ke Masjid Al-Aqsha</strong>. Di sana Rasulullah ﷺ mengimami 125.000 Nabi dan Rasul, menerima tongkat kepemimpinan umat manusia, dan menerima wahyu <em>Ayat Maqdisiyyah</em> (QS Az-Zukhruf: 45). Bahkan gelar <strong>Ash-Shiddiq</strong> bagi Abu Bakar lahir karena pembenarannya terhadap peristiwa Isra' ke Masjid Al-Aqsha.</p>
+                  <p>Ketika berhijrah ke Madinah (di mana populasi Muslim tumbuh pesat dari 1.500 orang di tahun 1 H menjadi 124.000 orang saat Nabi ﷺ wafat), Rasulullah ﷺ membangun <strong>Tsaqafah (Budaya) Baitul Maqdis</strong> di tengah masyarakat melalui <strong>4 Rukun Utama</strong>:</p>
+                  <div class="pillars-list">
+                    <div class="pillar-row">
+                      <div class="pillar-idx">01</div>
+                      <div class="pillar-name">Populerkan Terminologi</div>
+                      <div class="pillar-detail">Menanamkan istilah <em>Baitul Maqdis</em>, <em>Al-Ardhul Muqaddasah</em>, dan <em>Al-Ardhul Mubarakah</em> serta batas-batas wilayah sucinya (termasuk Gaza sebagai <em>Aknaf Baitul Maqdis</em>).</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">02</div>
+                      <div class="pillar-name">Sebarkan Bisyarah</div>
+                      <div class="pillar-detail">Menyebarkan harapan dan kabar gembira pembebasan di saat kondisi tersulit, seperti bisyarah Nabi ﷺ kepada Syaddad bin Aus bahwa Syam akan dibebaskan dan anak-cucunya akan menjadi imam di Al-Aqsha, serta bisyarah kepada Auf bin Malik di kemah sempit saat Perang Tabuk.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">03</div>
+                      <div class="pillar-name">Tilawah Malam Al-Isra'</div>
+                      <div class="pillar-detail">Merutinkan membaca Surah Al-Isra' (Bani Israil) setiap malam sebelum tidur sebagaimana sunnah Nabi ﷺ (HR. Tirmidzi dari Aisyah ra.) untuk menjaga ikatan psikologis dan spiritual.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">04</div>
+                      <div class="pillar-name">Wacana Utama Publik</div>
+                      <div class="pillar-detail">Menjadikan Baitul Maqdis perbincangan seluruh lapisan masyarakat—hingga Maimunah (pembantu Nabi ﷺ) bertanya tentang fatwa Baitul Maqdis dan lahirlah anjuran mengirim minyak penerang (inspirasi mimbar Nuruddin Zanki & parfum wanita Diyarbakir untuk Shalahuddin).</div>
+                    </div>
+                  </div>
+                `
+              },
+              {
+                num: "03",
+                heading: "Strategi Politik & Militer (Tahun 6–10 H): Proporsi 23 Tahun vs 4 Tahun",
+                body: `
+                  <p>Perhatikan hitungan waktu kenabian: <strong>Persiapan Pengetahuan (I'dad Ma'rifi) berlangsung selama 23 tahun penuh tanpa henti, sedangkan Persiapan Politik dan Militer baru dimulai pada tahun ke-6 Hijriah (hanya 4 tahun terakhir usia Nabi ﷺ)</strong>. Ilmu adalah garis alas segitiga yang menopang sisi politik dan militer.</p>
+                  <p>Dalam <strong>Persiapan Politik</strong>, Rasulullah ﷺ mengajarkan prinsip <em>Tamahhul</em> (tidak tergesa-gesa) dengan <strong>melarang para sahabat melakukan kunjungan wisata/ziarah ke Masjid Al-Aqsha selama masih dikuasai penjajah Romawi</strong> (tercatat dalam 4 riwayat: kasus Al-Arqam bin Abil Arqam, seorang sahabat di hari Fathu Makkah, Ummul Mu'minin Maimunah, dan seorang sahabiyah). Mengapa dilarang? Agar kerinduan itu berubah menjadi tekad politik untuk membebaskannya, bukan sekadar datang berfoto di bawah kontrol intelijen penjajah lalu pulang merasa sudah berkontribusi! Selain itu, Nabi ﷺ memberikan <em>Wakaf Tamim bin Aus Ad-Dari</em> di Al-Khalil (Hebron) bahkan sebelum tanahnya bebas, serta mengirim surat diplomasi kepada Kaisar Heraclius.</p>
+                  <p>Dalam <strong>Persiapan Militer</strong>, Nabi ﷺ meluncurkan tiga ekspedisi strategis menuju utara: <strong>Perang Mu'tah</strong> (3.000 mujahidin menghadapi 200.000 pasukan Romawi, syahidnya 3 panglima Ja'far, Zaid, dan Abdullah bin Rawahah, serta taktik jenius <em>Strategic Withdrawal</em> oleh Khalid bin Walid yang digelari <em>Saifullah Al-Maslul</em>), <strong>Perang Tabuk</strong>, dan <strong>Pasukan Usamah bin Zaid</strong> (panglima berusia 17 tahun). Estafet 23 tahun masa Nabi ﷺ ini dilanjutkan 5 tahun di masa Abu Bakar dan Umar (Perang Yarmuk & pengepungan Iliya), hingga genap <strong>28 tahun persiapan komprehensif</strong> ketika Umar bin Khattab memasuki Al-Aqsha dan Bilal bin Rabah kembali mengumandangkan adzan yang membuat 4.000 sahabat menangis tersedu-sedu.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Mengapa Rasulullah ﷺ tidak mengizinkan para sahabat (seperti Al-Arqam dan Maimunah) pergi berziarah ke Masjid Al-Aqsha pada masa itu?",
+              options: [
+                "Karena jaraknya terlalu jauh untuk ditempuh dengan unta",
+                "Karena Baitul Maqdis masih berada di bawah penjajahan Romawi, sehingga larangan tersebut memotivasi sahabat menjadikan pembebasannya sebagai prioritas utama",
+                "Karena pahala shalat di Masjid Al-Aqsha sudah dihapus"
+              ],
+              answer: 1
+            }
+          }
+        ]
+      },
+      {
+        id: 1,
+        code: "BAGIAN 02 • GEOPOLITIK",
+        cardTitle: "LINGKARAN\nKEBERKAHAN",
+        cardSub: "TEORI GEOPOLITIK ISLAM",
+        regionHeader: "KERANGKA TEORI MANDIRI DARI SURAH AL-ISRA",
+        arabicTag: "سُبْحَانَ الَّذِي أَسْرَىٰ بِعَبْدِهِ لَيْلًا مِّنَ الْمَسْجِدِ الْحَرَامِ إِلَى الْمَسْجِدِ الْأَقْصَى الَّذِي بَارَكْنَا حَوْلَهُ",
+        heroHeadline: "Teori <strong>Lingkaran Keberkahan</strong>",
+        heroDesc: "Melepaskan kacamata teori geopolitik kolonial Barat dengan kerangka teori yang digali langsung dari Al-Qur'an: Memetakan pusat kepemimpinan dunia, hubungan organik Mesir–Syam, dan posisi strategis Indonesia.",
+        cardImg: "url('https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80')",
+        metric1Val: "3",
+        metric1Unit: "LINGKARAN",
+        metric1Label: "TEORI BARAKAH AL-AWAISI",
+        metric1Sub: "INTI • SYAM & MESIR • TIMUR ISLAM",
+        metric2Val: "148",
+        metric2Unit: "THN",
+        metric2Label: "PROYEK BUFFER STATE BARAT",
+        metric2Sub: "1800 – 1948 (MEMISAH MESIR & SYAM)",
+        svgMap: "M70,25 m-20,0 a20,20 0 1,0 40,0 a20,20 0 1,0 -40,0 M70,25 m-35,0 a35,22 0 1,0 70,0 a35,22 0 1,0 -70,0",
+        svgCurve: "M10,40 Q45,5 75,25 T132,12",
+        coords: "30.0444° N, 31.2357° E",
+        coordPlace: "MESIR • SYAM • CYPRUS",
+        coordRole: "DUA SAYAP BAITUL MAQDIS",
+        chapters: [
+          {
+            pillName: "01. Teori & Lingkaran 1",
+            kicker: "BAB 01 • METODOLOGI RISET & LINGKARAN PERTAMA",
+            title: "Lahirnya Teori Lingkaran Keberkahan & Sakralitas Lingkaran Pertama",
+            arabic: "إِلَى الْمَسْجِدِ الْأَقْصَى الَّذِي بَارَكْنَا حَوْلَهُ",
+            quoteMeaning: "“...menuju Masjidil Aqsha yang telah Kami berkahi sekelilingnya...” (QS. Al-Isra': 1)",
+            sections: [
+              {
+                num: "01",
+                heading: "Mengapa Teori Geopolitik Barat Mustahil Membebaskan Baitul Maqdis?",
+                body: `
+                  <p>Sebagaimana telah dibahas pada bagian fondasi, umat Islam terhenti di tahap <em>Understanding</em> dan gagal melakukan <em>Interpretation</em> karena tidak memiliki <strong>Theoretical Framework (Kerangka Teori)</strong> mandiri. Selama ini universitas-universitas di dunia Islam hanya mengimpor teori Hubungan Internasional dan Geopolitik yang lahir dari rahim imperialisme Barat.</p>
+                  <p>Apakah masuk akal jika pihak yang menanam proyek kolonial di jantung tanah Islam justru kita jadikan guru untuk mengajari kita cara membebaskan diri dari penjajahan mereka? Menggunakan teori Barat untuk membebaskan Baitul Maqdis ibarat orang bermata minus yang memakai kacamata plus—bukan memperjelas pandangan, melainkan membutakan arah perjuangan. Rahasia kebangkitan ilmuwan Muslim masa keemasan terletak pada <strong>Al-Bahtsul Muntazhim (Systematic & Continuous Research)</strong> yang menggali langsung dari Al-Qur'an dan Sunnah, bukan berhenti tidur setelah meraih gelar doktor atau profesor.</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Inspirasi Riak Batu di Danau & Makna 'Barakah' dalam Al-Qur'an",
+                body: `
+                  <p>Teori Lingkaran Keberkahan ditemukan Prof. Abd al-Fattah el-Awaisi melalui proses tadabbur dan riset sistematis selama bertahun-tahun terhadap frasa <strong>"Alladzi barakna haulahu"</strong> dalam QS Al-Isra': 1. Inspirasi visualnya terbuka saat beliau melemparkan batu ke permukaan danau di Skotlandia dan mengamati bagaimana jatuhnya batu di titik pusat melahirkan gelombang riak konsentris yang memancar semakin luas, serta prinsip medan magnet dalam fisika.</p>
+                  <p>Secara terminologi, <strong>Barakah</strong> adalah karunia ilahi yang bermakna <strong>An-Nama' (bertumbuh), Az-Ziyadah (bertambah), dan Ats-Tsabat (bertahan kokoh)</strong>. Di dalam Al-Qur'an, Allah menetapkan tiga markas agung bagi semesta alam (<em>Lil 'Alamin</em>) dengan porsi yang saling melengkapi:</p>
+                  <div class="pillars-list">
+                    <div class="pillar-row">
+                      <div class="pillar-idx">MAKKAH</div>
+                      <div class="pillar-name">Markas Hidayah<br><span style="font-size:0.75rem; color:var(--gold);">هُدًى لِّلْعَالَمِينَ</span></div>
+                      <div class="pillar-detail">QS Ali 'Imran: 96 — <em>"Sesungguhnya rumah yang mula-mula dibangun untuk manusia ialah Baitullah di Bakkah (Makkah) yang diberkahi dan menjadi petunjuk (hidayah) bagi seluruh alam."</em></div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">MADINAH</div>
+                      <div class="pillar-name">Markas Rahmat<br><span style="font-size:0.75rem; color:var(--gold);">رَحْمَةً لِّلْعَالَمِينَ</span></div>
+                      <div class="pillar-detail">QS Al-Anbiya': 107 — Tempat berdirinya negara kenabian Rasulullah ﷺ yang memancarkan rahmat bagi semesta alam.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">AL-AQSHA</div>
+                      <div class="pillar-name">Markas Keberkahan<br><span style="font-size:0.75rem; color:var(--gold);">بَارَكْنَا فِيهَا لِلْعَالَمِينَ</span></div>
+                      <div class="pillar-detail">QS Al-Anbiya': 71 & QS Al-Isra': 1 — Masjid Al-Aqsha adalah <strong>Pusat dari Pusat Keberkahan (Markazul Markaz lil Barakah)</strong> yang riaknya memancar ke seluruh penjuru bumi, termasuk hingga ke Nusantara.</div>
+                    </div>
+                  </div>
+                `
+              },
+              {
+                num: "03",
+                heading: "Lingkaran Pertama: Al-Ardhul Muqaddasah (Batas Syar'i & Keberkahan Indrawi)",
+                body: `
+                  <p>Keberkahan Baitul Maqdis disebutkan 5 kali dalam Al-Qur'an: empat ayat menggunakan redaksi <em>"Barakna fiha"</em> (Al-Anbiya: 71, Al-Anbiya: 81, Saba': 18, Al-A'raf: 137) yang merujuk pada wilayah keberkahan sebelum diutusnya Nabi Muhammad ﷺ, dan satu ayat menggunakan redaksi <em>"Barakna haulahu"</em> (Al-Isra': 1) yang menetapkan Masjid Al-Aqsha sebagai titik pusatnya. Menariknya, Surah Al-Isra' terletak tepat di pertengahan Al-Qur'an (akhir Juz 15), sebagaimana peristiwa Isra' Mi'raj terjadi tepat di pertengahan masa kenabian (tahun 11,5 dari 23 tahun).</p>
+                  <p>Keberkahan <strong>Lingkaran Pertama (Wilayah Baitul Maqdis)</strong> meliputi berkah <em>Ma'nawiyah</em> (tanah yang telah diberkahi Allah bahkan sebelum datangnya para Nabi, dan Masjid Al-Aqsha dibangun pertama kali oleh Nabi Adam 'alaihissalam 40 tahun setelah Ka'bah) serta berkah <em>Hissiyyah/Indrawi</em>: dalam wilayah sekecil itu terdapat <strong>4 topografi, 4 iklim, dan 4 ragam agrikultur sekaligus</strong> (pegunungan Al-Khalil yang sejuk dengan 20 jenis anggur dan tin, gurun penghasil gandum, lembah terendah bumi di Jericho yang hangat di musim dingin, hingga pesisir pantai Jaffa dan Haifa). Batas Baitul Maqdis adalah <strong>batas sakral syar'i</strong> (mencakup Al-Quds, Bethlehem, Al-Khalil, Nablus, hingga Mu'tah di selatan), bukan batas administratif kolonial. Peran utama penduduk Lingkaran Pertama adalah <strong>menjaga api ribath dan perlawanan</strong> agar penjajah tidak pernah tenang sampai umat Islam dunia terbangun.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Mengapa Allah menggunakan dhamir 'Na' (Kami) pada kalimat 'Barakna haulahu' sedangkan pada awal ayat menggunakan dhamir 'Huwa' (Dia) pada 'Asra bi 'abdihi'?",
+              options: [
+                "Karena peristiwa Isra' adalah momen satu malam, sedangkan 'Barakna' menunjukkan keberkahan yang terus-menerus mengalir dan dijaga langsung oleh kehadiran keagungan Allah",
+                "Hanya sebagai variasi gaya bahasa tanpa makna khusus",
+                "Karena keberkahannya sudah berakhir di masa lalu"
+              ],
+              answer: 0
+            }
+          },
+          {
+            pillName: "02. Lingkaran Kedua",
+            kicker: "BAB 02 • SAYAP GEOPOLITIK MESIR, SYAM & CYPRUS",
+            title: "Lingkaran Kedua (Al-Ardhul Mubarakah) & Hubungan Organik Mesir–Syam",
+            arabic: "لا يمكن تحرير بيت المقدس بدون جناحيه: مصر والشام",
+            quoteMeaning: "“Baitul Maqdis ibarat jantung, sementara Mesir dan Syam adalah kedua sayapnya. Tidak mungkin seekor burung dapat terbang hanya dengan satu sayap.”",
+            sections: [
+              {
+                num: "01",
+                heading: "Signifikansi Cyprus, Aleppo (Halb), dan Alexandria",
+                body: `
+                  <p><strong>Lingkaran Kedua (Al-Ardhul Mubarakah)</strong> mencakup seluruh tanah Syam (Suriah, Yordania, Lebanon, Palestina, hingga Tabuk), sebagian wilayah Mesir (Sinai hingga Alexandria), serta pulau <strong>Cyprus (Qubrush)</strong> di Laut Mediterania. Dalam ilmu geopolitik, Cyprus adalah <em>Warning Zone</em> (radar peringatan dini) bagi Syam dan Baitul Maqdis. Sejak Perang Salib hingga operasi intelijen udara Barat hari ini, pangkalan di Cyprus selalu digunakan sebagai batu loncatan menyerang tanah suci. Karena itulah Muawiyah bin Abi Sufyan membangun armada laut Islam pertama untuk membebaskan Cyprus (ekspedisi yang diikuti sahabiyah Ummu Haram binti Milhan sebagaimana bisyarah Nabi ﷺ).</p>
+                  <p>Jika kita menarik garis kompas dari titik pusat Masjid Al-Aqsha, <strong>jarak antara Al-Aqsha ke Aleppo (Halb) di utara Suriah persis sama dengan jarak Al-Aqsha ke Alexandria di pesisir Mesir</strong>. Keduanya berada tepat di garis keliling Lingkaran Kedua. Shalahuddin Al-Ayyubi sangat memahami bobot geopolitik ini sehingga beliau membangun pangkalan militer di Alexandria dan Aleppo secara bersamaan sebelum bergerak ke jantung Baitul Maqdis.</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Tiga Persamaan Hubungan Organik Mesir & Syam",
+                body: `
+                  <p>Sejarah membuktikan adanya dua model pembebasan: <strong>Model Umar bin Khattab</strong> (Damaskus/Syam → Baitul Maqdis → Mesir) dan <strong>Model Nuruddin & Shalahuddin</strong> (Suriah → Mesir → menyatukan keduanya → Baitul Maqdis). Hubungan antara Mesir dan Syam adalah <em>'Alaqah 'Udhwiyyah</em> (hubungan organik layaknya anggota tubuh) yang terikat dalam tiga hukum geopolitik:</p>
+                  <div class="pillars-list">
+                    <div class="pillar-row">
+                      <div class="pillar-idx">HUKUM 1</div>
+                      <div class="pillar-name">Keamanan Nasional</div>
+                      <div class="pillar-detail">Kebutuhan keamanan nasional (<em>National Security</em>) Mesir adalah sama dengan kebutuhan keamanan nasional Syam.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">HUKUM 2</div>
+                      <div class="pillar-name">Arah Kebijakan</div>
+                      <div class="pillar-detail">Stabilitas politik dan arah kebijakan di Kairo selalu berdampak langsung pada Damaskus, begitu pula sebaliknya.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">HUKUM 3</div>
+                      <div class="pillar-name">Pintu Ancaman</div>
+                      <div class="pillar-detail">Setiap ancaman invasi besar terhadap Mesir pasti melewati gerbang Syam/Baitul Maqdis, dan ancaman terhadap Syam pasti membutuhkan pelumpuhan Mesir (seperti kampanye Napoleon hingga Perang Dunia I).</div>
+                    </div>
+                  </div>
+                `
+              },
+              {
+                num: "03",
+                heading: "Proyek Kolonial 148 Tahun (1800–1948): Mengapa Buffer State Didirikan?",
+                body: `
+                  <p>Siapa pun yang ingin menjajah Baitul Maqdis pasti harus memutus hubungan organik Mesir dan Syam melalui salah satu dari tiga cara: <strong>(1) Ihtilal (menjajah langsung keduanya), (2) Saytharah (menjadikan rezim keduanya di bawah hegemoni boneka), atau (3) Tadmir (menghancurkan keduanya dengan konflik internal)</strong>.</p>
+                  <p>Fakta sejarah membuktikan bahwa "Negara Israel" bukanlah proyek keagamaan Yahudi, melainkan <strong>Proyek Kolonial Barat yang dirancang selama 148 tahun (1800–1948)</strong>—bahkan 97 tahun sebelum Theodor Herzl menggelar Kongres Zionis pertama pada 1897! Pada tahun <strong>1841</strong>, negara-negara <em>Great Power</em> Eropa menggelar Konferensi London untuk memisahkan kekuatan Muhammad Ali Pasha (Mesir) dari tanah Syam. Empat puluh tahun kemudian (1882), Inggris menjajah Mesir. Puncaknya, Barat menanam entitas <strong>Buffer State (Negara Penyangga) Israel</strong> tepat di titik engsel antara Mesir dan Syam agar dunia Arab-Islam tidak pernah bisa bersatu kembali.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Apa tiga cara yang selalu digunakan kekuatan penjajah terhadap Mesir dan Syam agar dapat terus menguasai Baitul Maqdis?",
+              options: [
+                "Menjajah langsung (Ihtilal), mendominasi hegemoni politiknya (Saytharah), atau menghancurkannya dari dalam (Tadmir)",
+                "Memberikan bantuan teknologi gratis, membangun universitas, dan menghapus utang",
+                "Menyatukan mata uang Mesir dan Suriah"
+              ],
+              answer: 0
+            }
+          },
+          {
+            pillName: "03. Lingkaran 3 & Indonesia",
+            kicker: "BAB 03 • LINGKARAN KETIGA & PERAN ASIA TENGGARA",
+            title: "Empat Negara Sentral & Kepemimpinan Keilmuan Indonesia",
+            arabic: "وَالتِّينِ وَالزَّيْتُونِ • وَطُورِ سِينِينَ • وَهَٰذَا الْبَلَدِ الْأَمِينِ",
+            quoteMeaning: "“Demi buah Tin dan Zaitun (Lingkaran 1: Baitul Maqdis), demi Gunung Sinai (Lingkaran 2: Mesir), dan demi negeri yang aman ini (Lingkaran 3: Makkah).” (QS. At-Tiin: 1–3)",
+            sections: [
+              {
+                num: "01",
+                heading: "Lingkaran Ketiga (Min – Ila) & Tiga Rumus Kekuasaan Dunia",
+                body: `
+                  <p>Batas <strong>Lingkaran Ketiga</strong> ditarik dari huruf <em>"Min"</em> (dari Masjidil Haram) menuju <em>"Ila"</em> (ke Masjidil Aqsha) dalam QS Al-Isra': 1. Lingkaran ini mencakup Hijaz (Makkah & Madinah), sisa wilayah Mesir, Irak, hingga Turki (di mana Makkah di selatan dan Istanbul di utara berada pada garis busur lingkaran yang sama). Dalam kawasan ini terdapat <strong>4 Negara Sentral Politik-Militer</strong>: <strong>Mesir</strong> (pusat kekuatan dunia Arab), <strong>Turki</strong> (pusat kekuatan Asia Barat/Timur Tengah), <strong>Irak</strong>, dan <strong>Suriah (Syam)</strong>, ditambah <strong>Laut Mediterania</strong> sebagai pusat kekuatan maritim.</p>
+                  <div class="editorial-callout">
+                    <p><strong>Tiga Rumus Geopolitik Lingkaran Keberkahan:</strong><br>
+                    1. Siapa yang menguasai Lingkaran Pertama (Baitul Maqdis), maka ia mendominasi Lingkaran Kedua (Al-Ardhul Mubarakah).<br>
+                    2. Siapa yang menguasai Lingkaran Kedua, maka ia mendominasi Lingkaran Ketiga (Jantung Dunia Islam).<br>
+                    3. Siapa yang menguasai Lingkaran Ketiga, maka ia memegang kepemimpinan dunia (<em>Markaz Qiyadatil 'Alam</em>).</p>
+                  </div>
+                `
+              },
+              {
+                num: "02",
+                heading: "Peran Luar Lingkaran Ketiga: Mengapa Indonesia Memimpin Al-I'dad Al-Ma'rifi?",
+                body: `
+                  <p>Apakah negeri-negeri di luar Lingkaran Ketiga tidak memiliki peran? Sejarah mencatat bahwa kabilah-kabilah <strong>Yaman</strong> memegang peran militer kunci dalam pembebasan Baitul Maqdis di masa Umar bin Khattab, sementara masyarakat <strong>Maghrib (Maroko, Aljazair, Tunisia, Libya)</strong> berkontribusi sangat besar dalam pasukan Shalahuddin Al-Ayyubi hingga dianugerahi distrik khusus (<em>Harah Al-Magharibah</em>) di samping dinding Masjid Al-Aqsha.</p>
+                  <p>Lalu bagaimana dengan <strong>Indonesia</strong> sebagai pusat kekuatan utama di Asia Tenggara? Keempat negara sentral di sekitar Baitul Maqdis (Mesir, Turki, Irak, Suriah) memikul beban utama persiapan politik dan militer karena kedekatan geografisnya, namun masyarakat di sana setiap hari terkuras oleh guncangan konflik dan tekanan intelijen. Mengacu pada teori <em>Challenge and Response</em>, jarak geografis Indonesia yang jauh dari episentrum konflik militer justru menjadi <strong>nikmat dan keunggulan strategis</strong>: Indonesia memiliki ketenangan, stabilitas, dan modal sosial-intelektual untuk menjadi <strong>Leader dalam Al-I'dad Al-Ma'rifi (Persiapan Pengetahuan)</strong> bagi dunia Islam.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Mengapa letak geografis Indonesia yang jauh dari Baitul Maqdis justru dipandang sebagai keunggulan strategis oleh Prof. Abd al-Fattah el-Awaisi?",
+              options: [
+                "Karena Indonesia memiliki ketenangan dari guncangan militer harian di Timur Tengah, sehingga paling potensial menjadi pusat dan pemimpin Persiapan Pengetahuan (Al-I'dad Al-Ma'rifi)",
+                "Karena Indonesia tidak perlu memikirkan persoalan geopolitik dunia Islam",
+                "Karena jarak geografis menghapus kewajiban menuntut ilmu"
+              ],
+              answer: 0
+            }
+          }
+        ]
+      },
+      {
+        id: 2,
+        code: "BAGIAN 03 • PERADABAN",
+        cardTitle: "PIAGAM UMAR\n& AL-AMAAN",
+        cardSub: "TATANAN PASCA KEMERDEKAAN",
+        regionHeader: "AL-'UHDAH AL-'UMARIYYAH & TEORI AL-AMAAN",
+        arabicTag: "العهدة العمرية • التعايش السلمي والاحترام المتبادل",
+        heroHeadline: "Visi Peradaban <strong>Pasca Pembebasan</strong>",
+        heroDesc: "Kemerdekaan (Tahrir) hanyalah gerbang permulaan, bukan tujuan akhir. Membedah bagaimana Amirul Mu'minin Umar bin Khattab meletakkan fondasi koeksistensi damai dan keadilan universal melalui Piagam Umar.",
+        cardImg: "url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=900&q=80')",
+        metric1Val: "4",
+        metric1Unit: "INPUT",
+        metric1Label: "TEORI AL-AMAAN",
+        metric1Sub: "TADAFU' • ADIL • HIWAR • NON-EKSKLUSI",
+        metric2Val: "16",
+        metric2Unit: "HIJRIAH",
+        metric2Label: "4 JUMADIL TSANI 16 H",
+        metric2Sub: "PEMBEBASAN PERTAMA OLEH UMAR",
+        svgMap: "M15,25 L45,12 L85,12 L125,25 L85,42 L45,42 Z",
+        svgCurve: "M10,35 C40,35 55,10 85,10 C110,10 120,25 135,8",
+        coords: "31.7784° N, 35.2296° E",
+        coordPlace: "ILIYA • BAITUL MAQDIS",
+        coordRole: "AL-AMAAN MENUJU 'UMRAN (PERADABAN)",
+        chapters: [
+          {
+            pillName: "01. Hakikat Piagam Umar",
+            kicker: "BAB 01 • STUDI KRITIS AL-'UHDAH AL-'UMARIYYAH",
+            title: "Piagam Umar: Jaminan Keamanan Pemimpin Kuat, Bukan Perjanjian Kompromi",
+            arabic: "بسم الله الرحمن الرحيم، هذا ما أعطى عبد الله عمر أمير المؤمنين أهل إيلياء من الأمان",
+            quoteMeaning: "“Dengan nama Allah Yang Maha Pengasih lagi Maha Penyayang. Inilah jaminan keamanan (Al-Amaan) yang diberikan oleh hamba Allah, Umar, Amirul Mu'minin, kepada penduduk Iliya...”",
+            sections: [
+              {
+                num: "01",
+                heading: "Perbedaan 'Uhdah 'Umariyyah vs Syuruth 'Umariyyah",
+                body: `
+                  <p>Ketika Amirul Mu'minin Umar bin Khattab tiba di Baitul Maqdis pada <strong>4 Jumadil Tsani 16 H</strong> setelah pengepungan tanpa pertumpahan darah, beliau menghadapi tantangan sosiologis yang belum pernah terjadi di Madinah: di dalam kota Iliya saat itu terdapat 62.000 jiwa (50.000 penduduk sipil Nasrani dan 12.000 sisa pasukan Romawi) dan <strong>belum ada seorang warga Muslim pun yang bermukim di sana</strong>. Merujuk pada preseden <em>Piagam Madinah (Shahifah Al-Madinah)</em> yang disusun Rasulullah ﷺ, Umar menulis langsung sebuah dokumen hukum bersejarah bernama <strong>Al-'Uhdah Al-'Umariyyah (Piagam Umar)</strong>.</p>
+                  <p>Penting untuk dibedakan: <em>Al-'Uhdah Al-'Umariyyah</em> adalah piagam otentik tulisan Umar bin Khattab di Baitul Maqdis, sedangkan <em>Asy-Syuruth Al-'Umariyyah</em> adalah kompilasi aturan fikih yang baru disusun oleh para fuqaha berabad-abad kemudian dan sama sekali tidak ditulis oleh Umar.</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Tiga Bukti Tekstual: Mengapa Ini 'Jaminan' ('Uhdah), Bukan 'Perjanjian' (Mu'ahadah)?",
+                body: `
+                  <p>Kaum orientalis dan akademisi Zionis sengaja menerjemahkan Piagam Umar sebagai <em>"Umar's Covenant / Agreement"</em> (Perjanjian Kesepakatan) untuk mengesankan bahwa dokumen ini lahir dari negosiasi dua pihak yang setara antara Umar dan Patriark Sophronius. Klaim orientalis tersebut runtuh oleh tiga bukti tekstual di dalam naskah riwayat Imam At-Thabari (riwayat paling utuh yang bersanad kuat melalui dua tabi'in Syam yang <em>tsiqah</em>, Khalid bin Ma'dan dan Ubadah bin Nusay):</p>
+                  <div class="pillars-list">
+                    <div class="pillar-row">
+                      <div class="pillar-idx">BUKTI 01</div>
+                      <div class="pillar-name">Kalimat Pembuka</div>
+                      <div class="pillar-detail">Menggunakan frasa <strong>"Hadza ma a'tha..." (Inilah yang diberikan oleh...)</strong>. Hanya ada satu subjek pemberi (Umar), bukan kata kerja timbal-balik seperti <em>"Ittafaqa"</em> (telah disepakati).</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">BUKTI 02</div>
+                      <div class="pillar-name">Lafaz Basmalah</div>
+                      <div class="pillar-detail">Diawali dengan <em>Bismillahirrahmanirrahim</em>. Dalam tradisi diplomatik masa itu (seperti Perjanjian Hudaibiyah), jika dokumen merupakan kesepakatan dua pihak dengan non-Muslim, pihak non-Muslim pasti menolak pencantuman Basmalah.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">BUKTI 03</div>
+                      <div class="pillar-name">Klausul & Saksi</div>
+                      <div class="pillar-detail">Ditutup dengan jaminan <em>"'Ahdullah wa dzimmatu Rasulihi wa dzimmatul Khulafa'"</em> serta ditandatangani oleh 4 saksi yang seluruhnya adalah sahabat Nabi ﷺ (Khalid bin Walid, Amr bin Ash, Abdurrahman bin Auf, dan Muawiyah bin Abi Sufyan) tanpa satu pun saksi dari pihak Romawi/Gereja.</div>
+                    </div>
+                  </div>
+                `
+              },
+              {
+                num: "03",
+                heading: "Bedah Substansi Piagam: Hak 5 Golongan, Keadilan Jizyah & Pengusiran Penjajah",
+                body: `
+                  <p>Piagam Umar menggunakan sapaan <em>"Ahlu Iliya"</em> (bukan Baitul Maqdis) agar seluruh warga Nasrani setempat memahami bahwa merekalah subjek hukum yang disapa dan dilindungi. Umar menjamin keamanan jiwa, harta, gereja, dan salib-salib mereka, serta menolak segala konsep rasisme "bangsa terpilih". Sebagai timbal balik atas jaminan perlindungan dan pelayanan publik tersebut, warga non-Muslim yang mampu diwajibkan membayar <strong>Jizyah</strong>—yang secara persentase dan fleksibilitas jauh lebih ringan dibanding pajak Romawi yang mencekik maupun kewajiban Zakat (2,5%) bagi warga Muslim. Bahkan jika seorang warga non-Muslim jatuh fakir di masa tua, ia berhak disantuni dari Baitul Mal.</p>
+                  <div class="editorial-callout">
+                    <div class="callout-arabic">وَعَلَيْهِمْ أَنْ يُخْرِجُوا مِنْهَا الرُّومَ وَاللُّصُوصَ</div>
+                    <p>“Dan kewajiban atas penduduk Iliya adalah mengusir keluar dari dalamnya tentara penjajah Romawi dan para perampok (Al-Lushush).” Umar menyamakan penjajah dengan maling/perampok: tidak ada kompromi berbagi tanah (Two-State Solution) dengan perampok!</p>
+                  </div>
+                  <p>Lebih mengagumkan lagi, terhadap golongan kelima yaitu <strong>Ahlul Ardh</strong> (para pengungsi dan petani lintas wilayah yang mencari suaka di Baitul Maqdis), Umar membebaskan mereka memilih untuk tinggal atau pulang ke kampung halamannya, serta melarang memungut pajak sedikit pun dari mereka <em>"hingga mereka selesai memanen hasil pertanian mereka"</em>.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Mengapa di dalam Piagam Umar kalimat 'Ar-Ruum' (tentara penjajah Romawi) digandengkan langsung dengan kata 'Al-Lushush' (para perampok/pencuri)?",
+              options: [
+                "Untuk menegaskan prinsip hukum bahwa penjajah statusnya sama dengan perampok tanah, sehingga solusinya adalah diusir keluar, bukan dibagi dua",
+                "Karena tentara Romawi saat itu hanya berjumlah beberapa orang",
+                "Karena penduduk lokal ingin tentara Romawi tetap memerintah"
+              ],
+              answer: 0
+            }
+          },
+          {
+            pillName: "02. Kritik Teks & Al-Amaan",
+            kicker: "BAB 02 • KRITIK TEKS ORTODOKS & TEORI AL-AMAAN",
+            title: "Membongkar Pemalsuan Sejarah & Merumuskan Teori Al-Amaan Menuju Peradaban",
+            arabic: "وَلَوْلَا دَفْعُ اللَّهِ النَّاسَ بَعْضَهُم بِبَعْضٍ لَّفَسَدَتِ الْأَرْضُ",
+            quoteMeaning: "“Seandainya Allah tidak menolak (keganasan) sebagian manusia dengan sebagian yang lain (At-Tadafu'), niscaya rusaklah bumi ini...” (QS. Al-Baqarah: 251)",
+            sections: [
+              {
+                num: "01",
+                heading: "Kritik Ekstrinsik & Intrinsik atas Teks Palsu Gereja Ortodoks (1953)",
+                body: `
+                  <p>Pada 1 Januari 1953 (tepat ketika Yordania mengintegrasikan Tepi Barat pasca Nakbah 1948), Patriarkat Gereja Ortodoks mempublikasikan sebuah naskah yang mereka klaim sebagai manuskrip asli Piagam Umar demi meminta hak monopoli politik atas seluruh gereja dan pembebasan pajak. Setelah memotret langsung dokumen tersebut pada 1991 dan menelitinya selama 10 tahun, Prof. Abd al-Fattah membuktikan secara ilmiah bahwa naskah Ortodoks tersebut <strong>100% palsu</strong>:</p>
+                  <p><strong>Secara Ekstrinsik (Zhahiri):</strong> Menggunakan kertas modern berornamen bunga warna-warni (bukan kulit/perkamen abad ke-7 M), pendahuluannya bergaya khutbah Jum'at yang memuji Sophronius secara hiperbolis, serta penuh kesalahan gramatikal bahasa Arab dasar (seperti penulisan <em>At-Tha'at</em> dengan ta' maftuhah, kata <em>Wa-kulluman</em> yang disambung, dan <em>Dirhamun wa tsulutsun</em> yang tidak manshub)—padahal Umar terkenal sangat ketat dalam tata bahasa Arab.</p>
+                  <p><strong>Secara Intrinsik (Bathini):</strong> Menggunakan istilah <em>"Al-Quds Asy-Syarif"</em> dan kata <em>"Marsum"</em> yang baru muncul di era Turki Utsmani, menyebut kaum <em>"Frank"</em> (padahal istilah Frank baru dikenal ratusan tahun kemudian saat Perang Salib), mencantumkan Utsman bin Affan sebagai saksi (padahal Utsman tinggal di Madinah dan tidak ikut ke Baitul Maqdis), membebaskan pendeta dari Jizyah, serta memungut bayaran (pungli) bagi peziarah Gereja Makam Kudus.</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Kejeniusan Umar di Gereja Al-Qiyamah & Makna 'Al-Amaan'",
+                body: `
+                  <p>Meskipun tegas terhadap penjajah, Umar bin Khattab menunjukkan puncak kebijaksanaan kepada warga sipil Nasrani. Saat mengunjungi Gereja Makam Kudus (<em>Kanisah Al-Qiyamah</em>) dan waktu shalat tiba, Patriark Sophronius mempersilakan Umar shalat di tengah gereja. Umar menolak dengan tegas dan memilih keluar shalat di pelataran yang agak jauh seraya menjelaskan: <em>"Wahai Sophronius, jika aku shalat di dalam gerejamu hari ini, aku khawatir kaum Muslimin sepeninggalku kelak akan mengambil alih gereja ini dan mengubahnya menjadi masjid dengan alasan Umar pernah shalat di sini."</em></p>
+                  <p>Sikap ksatria itu membuat Sophronius sangat takjub hingga menyerahkan kunci Gereja Al-Qiyamah kepada Umar, yang kemudian diamanahkan kepada keluarga sahabat Muslim (keluarga Al-Judah dan Nusaybah) untuk memegang kuncinya hingga detik ini. Dari sinilah lahir istilah <strong>Al-Amaan (الأمان)</strong> yang disebut 8 kali dalam Piagam Umar—yang maknanya jauh melampaui <em>Al-Amn</em> (sekadar keamanan fisik), yaitu: <strong>At-Ta'ayusy As-Silmi (Peaceful Coexistence / Koeksistensi Damai) dan Al-Ihtiram Al-Mutabadal (Mutual Respect / Penghormatan Timbal Balik)</strong>.</p>
+                `
+              },
+              {
+                num: "03",
+                heading: "Empat Input Teori Al-Amaan Menuju 'Umran (Peradaban Islam Kedua)",
+                body: `
+                  <p>Dari bedah Piagam Umar dan ayat-ayat Al-Qur'an, tersusunlah <strong>Teori Al-Amaan</strong> yang memiliki 4 Input utama yang berporos pada pemuliaan martabat manusia (<em>Wa laqad karramna Bani Adam</em> - QS Al-Isra': 70):</p>
+                  <div class="pillars-list">
+                    <div class="pillar-row">
+                      <div class="pillar-idx">INPUT 01</div>
+                      <div class="pillar-name">Metodologi At-Tadafu'<br><span style="font-size:0.75rem; color:var(--gold);">منهجية التدافع</span></div>
+                      <div class="pillar-detail">Mengubah paradigma konflik pemusnahan (<em>Ash-Shira' / Zero-Sum Game</em> ala Barat) menjadi penolakan kejahatan dan kompetisi penyeimbang peradaban demi melindungi biara, gereja, sinagog, dan masjid (QS Al-Baqarah: 251, Al-Hajj: 40, Fusshilat: 34)—sebagaimana Sultan Salim I yang hanya mendorong mundur ekspansi Safawi kembali ke tapal batasnya tanpa membumihanguskan penduduknya.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">INPUT 02</div>
+                      <div class="pillar-name">Dialog Konstruktif<br><span style="font-size:0.75rem; color:var(--gold);">الحوار البناء</span></div>
+                      <div class="pillar-detail">Berargumen dengan cara dan bukti yang paling unggul (<em>Wa jadilhum bil-lati hiya ahsan</em> - QS An-Nahl: 125).</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">INPUT 03</div>
+                      <div class="pillar-name">Keadilan Mutlak<br><span style="font-size:0.75rem; color:var(--gold);">مفهوم العدل</span></div>
+                      <div class="pillar-detail">Menegakkan keadilan bagi seluruh manusia sebagai hak natural meskipun terhadap kaum yang dibenci (QS Al-Maidah: 8)—seperti ketegasan Umar bin Khattab menyuruh pemuda Koptik Mesir membalas cambukan anak gubernur Amr bin Ash sambil berseru: <em>"Sejak kapan kalian memperbudak manusia, padahal ibu-ibu mereka melahirkan mereka dalam keadaan merdeka?!"</em></div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">INPUT 04</div>
+                      <div class="pillar-name">Prinsip Non-Eksklusi<br><span style="font-size:0.75rem; color:var(--gold);">مبدأ عدم الإقصاء</span></div>
+                      <div class="pillar-detail">Panduan interaksi damai vs perang dalam QS Al-Mumtahanah: 8–9. Selama suatu kaum tidak memerangi agama dan tidak mengusir kita dari tanah air, kita wajib berbuat <em>Birr</em> (kebaikan tertinggi sebagaimana berbakti pada orang tua) dan adil kepada mereka.</div>
+                    </div>
+                  </div>
+                  <p>Keempat input ini melahirkan <strong>Al-Amaan</strong>, dan puncak dari Al-Amaan adalah <strong>'Umranul Ardh (Kemakmuran Peradaban Dunia / Globalisasi Islam Kedua)</strong> yang memancar dari Baitul Maqdis.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Apa perbedaan mendasar antara konsep 'Ash-Shira' (Konflik ala Barat) dengan Metodologi 'At-Tadafu' dalam Al-Qur'an (QS Al-Baqarah: 251 & Al-Hajj: 40)?",
+              options: [
+                "Ash-Shira' bertujuan memusnahkan pihak lain demi monopoli, sedangkan At-Tadafu' menahan kezaliman dan menjaga keseimbangan serta kemajemukan rumah ibadah di muka bumi",
+                "Keduanya sama-sama menghalalkan segala cara",
+                "At-Tadafu' berarti menyerah tanpa perlawanan kepada penjajah"
+              ],
+              answer: 0
+            }
+          }
+        ]
+      },
+      {
+        id: 3,
+        code: "BAGIAN 04 • STRATEGI",
+        cardTitle: "MODEL KOGNITIF\nSHALAHUDDIN",
+        cardSub: "GEOPOLITIK KONTEMPORER",
+        regionHeader: "DIAGNOSIS REGIONAL & MODEL SHALAHUDDIN",
+        arabicTag: "السياسة هي فن تغيير الموازين • النموذج المعرفي لصلاح الدين",
+        heroHeadline: "Seni Mengubah <strong>Keseimbangan Dunia</strong>",
+        heroDesc: "Membedah realitas geopolitik kontemporer negara-negara sekitar Baitul Maqdis tanpa tedeng aling-aling, serta menarik pola strategis dari 21,5 tahun perjuangan Shalahuddin Al-Ayyubi.",
+        cardImg: "url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80')",
+        metric1Val: "75",
+        metric1Unit: "% WAKTU",
+        metric1Label: "FOKUS INTERNAL SHALAHUDDIN",
+        metric1Sub: "16,5 THN MESIR-SYAM VS 5 THN SALIBIS",
+        metric2Val: "2",
+        metric2Unit: "PILAR",
+        metric2Label: "SINERGI ULAMA & PEMIMPIN",
+        metric2Sub: "AL-QADHI AL-FADHIL & SHALAHUDDIN",
+        svgMap: "M12,40 L38,15 L65,30 L95,8 L128,22 L115,42 Z",
+        svgCurve: "M8,42 L40,40 L70,38 L95,12 L132,4",
+        coords: "32.8019° N, 35.4517° E",
+        coordPlace: "HITTIN • DAMASKUS • KAIRO",
+        coordRole: "RADICAL CHANGE & STRATEGIC PLAN",
+        chapters: [
+          {
+            pillName: "01. Politik & Independensi",
+            kicker: "BAB 01 • FILOSOFI POLITIK & INDEPENDENSI ULAMA",
+            title: "Politik sebagai Seni Mengubah Keseimbangan & Bahaya Legitimasi Kezaliman",
+            arabic: "السياسة هي فن تغيير الموازين",
+            quoteMeaning: "“Politik dalam pandangan geopolitik Islam bukanlah seni kemungkinan yang pragmatis (Machiavelli), melainkan seni memprediksi masa depan dan seni mengubah keseimbangan (Challenging the Impossible).”",
+            sections: [
+              {
+                num: "01",
+                heading: "Merombak Definisi Politik: Dari 'Seni Kemungkinan' Menjadi 'Seni Mengubah Keseimbangan'",
+                body: `
+                  <p>Definisi politik Machiavelli sebagai <em>"The Art of the Possible"</em> (Seni Kemungkinan) telah memenjarakan dunia Islam dalam pragmatisme dan rasa rendah diri. Jika Rasulullah ﷺ dan para sahabat di Madinah menganut definisi Machiavelli, mustahil mereka berani menantang dua adidaya dunia (Romawi dan Persia). Demikian pula para pejuang di Gaza; di tengah blokade total, mereka menerapkan politik sebagai <strong>Taghyirul Mawazin (Seni Mengubah Keseimbangan)</strong>—sebagaimana pasukan Arab koalisi 1967 kalah hanya dalam 6 jam, sementara pejuang yang terkepung mampu bertahan bertahun-tahun menghadapi kekuatan nuklir yang didukung penuh oleh AS dan Barat.</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Sinergi Ulama–Umara (Takamul) & Independensi Intelektual",
+                body: `
+                  <p>Hubungan antara ilmu pengetahuan dan kekuasaan politik seharusnya bersifat <strong>Takamul (saling melengkapi)</strong>, sebagaimana kemitraan strategis antara <strong>Al-Qadhi Al-Fadhil Abdurrahim</strong> (arsitek keilmuan dan strategi) dengan <strong>Shalahuddin Al-Ayyubi</strong> (eksekutor politik dan militer). Namun terdapat garis batas yang sangat tegas: <strong>seorang alim atau akademisi wajib menjaga independensi akalnya dan tidak boleh menjadi alat pembenar (stempel) bagi kesalahan politisi.</strong></p>
+                  <p>Tragedi tahun 1916 menjadi pelajaran pahit sepanjang sejarah, ketika lingkaran ulama di sekitar Syarif Husain menggunakan ayat-ayat Al-Qur'an untuk melegitimasi aliansi dengan Inggris dalam menghancurkan Daulah Utsmaniyah, bahkan menjuluki Syarif Husain sebagai <em>"Al-Faruq Kedua"</em>. Tugas seorang alim adalah menyampaikan risalah Allah tanpa takut kepada siapa pun selain Allah (QS Al-Ahzab: 39) dan menghidupkan gagasannya dengan pengorbanan sebagaimana ditegaskan Sayyid Qutb bahwa kata-kata hanya akan hidup dan menggerakkan manusia apabila diberi makan dengan kejujuran dan darah keyakinan penulisnya.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Bagaimana seharusnya posisi seorang ulama/akademisi terhadap kekuasaan politik dalam kerangka pembebasan Baitul Maqdis?",
+              options: [
+                "Menjaga independensi akal secara mutlak, memberikan panduan strategis berbasis ilmu (Takamul seperti Al-Qadhi Al-Fadhil & Shalahuddin), dan tidak pernah melegitimasi kezaliman",
+                "Melebur sepenuhnya menjadi penjilat penguasa demi jabatan",
+                "Mengisolasi diri di gunung dan melarang seluruh umat mempelajari geopolitik"
+              ],
+              answer: 0
+            }
+          },
+          {
+            pillName: "02. Diagnosis Regional",
+            kicker: "BAB 02 • BEDAH GEOPOLITIK NEGARA SEKITAR BAITUL MAQDIS",
+            title: "Dua Sayap Proyek Kolonial, Politik Kepentingan AS & Fase Tamayuz",
+            arabic: "ضُرِبَتْ عَلَيْهِمُ الذِّلَّةُ أَيْنَ مَا ثُقِفُوا إِلَّا بِحَبْلٍ مِّنَ اللَّهِ وَحَبْلٍ مِّنَ النَّاسِ",
+            quoteMeaning: "“Mereka diliputi kehinaan di mana saja mereka berada, kecuali jika mereka berpegang kepada tali (agama) Allah dan tali (perjanjian) dengan manusia...” (QS. Ali 'Imran: 112)",
+            sections: [
+              {
+                num: "01",
+                heading: "AS, Buffer State Israel, dan Rezim Fungsional Penjaga Perbatasan",
+                body: `
+                  <p>Berdasarkan ratusan dokumen arsip resmi Inggris, proyek kolonialisme Barat di jantung dunia Islam memiliki <strong>dua komponen kembar yang tak terpisahkan: (1) Entitas Buffer State Israel, dan (2) Pemerintahan-pemerintahan boneka di sekitarnya yang dibentuk untuk menjaga stabilitas dan perbatasan Buffer State tersebut.</strong> Amerika Serikat hanya bergerak berdasarkan satu kompas: <em>Kepentingan (Interest)</em>—yaitu menjaga "bayi emasnya" (Israel), memonopoli 90% keuntungan minyak Arab, dan mencegah lahirnya kekuatan regional Islam yang mandiri.</p>
+                  <div class="pillars-list">
+                    <div class="pillar-row">
+                      <div class="pillar-idx">YORDANIA</div>
+                      <div class="pillar-name">Penjaga Perbatasan 360 KM</div>
+                      <div class="pillar-detail">Dideklarasikan oleh Winston Churchill di Kairo (1921) sebagai Trans-Yordania untuk melindungi perbatasan terpanjang Israel (360 km). Pada perang 1948, panglima militernya adalah jenderal Inggris <strong>Glubb Pasha</strong> dan komandan lapangannya <strong>Norman Lash</strong>. Sebelum perang 1967, rakyat Palestina dilucuti senjatanya, dan pada 1994 ditandatangani <strong>Perjanjian Wadi Araba (Pasal 9)</strong> yang membuka jalan pembagian waktu dan tempat di Masjid Al-Aqsha.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">SURIAH</div>
+                      <div class="pillar-name">Dari Golan 1967 ke Kebebasan Damaskus</div>
+                      <div class="pillar-detail">Pada 1967, Menteri Pertahanan Hafez Assad menyerahkan Dataran Tinggi Golan tanpa pertempuran dan mendapat jaminan kekuasaan seumur hidup dari Henry Kissinger (1970) asal perbatasan Israel aman. Saat revolusi rakyat Suriah hampir menumbangkan Bashar Assad pada 2013, Iran dan Rusia turun tangan membantai rakyat Sunni demi menjaga gerbang Teheran dan akses pelabuhan Mediterania. Runtuhnya rezim Assad pasca momentum <em>Thufan Al-Aqsha</em> (pembebasan Aleppo, Hama, Homs, hingga Damaskus) adalah <strong>kabar gembira (bisyarah) dekatnya pembebasan Baitul Maqdis</strong>, meski pemerintahan baru Suriah butuh waktu memulihkan pondasi dalam negerinya.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">PNA & MESIR</div>
+                      <div class="pillar-name">Sub-Kontraktor Oslo & Kudeta 2013</div>
+                      <div class="pillar-detail">Otoritas Nasional Palestina (PNA pimpinan Mahmoud Abbas hasil Perjanjian Oslo) berfungsi menangkap pejuang di Tepi Barat demi keamanan penjajah. Sementara di Mesir, ketika <em>Arab Spring 2011</em> mengancam kepentingan Barat, AS dan Israel merancang kudeta militer 2013 (didanai Saudi & UEA, dieksekusi Jenderal As-Sisi) untuk kembali memblokade Gaza dan memutus sayap selatan Baitul Maqdis.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">IRAN & TELUK</div>
+                      <div class="pillar-name">Dua Proyek Ekspansi & Bahaya Normalisasi</div>
+                      <div class="pillar-detail">Di Timur Tengah terdapat dua proyek ekspansi yang sama-sama diizinkan Barat untuk mengoyak dunia Arab Sunni: Israel di Palestina dan ekspansi Iran di 4 ibukota Arab (Baghdad pasca invasi AS 2003, Damaskus, Beirut, dan Sana'a). Di sisi lain, rezim Teluk (MBS di Saudi dan UEA) mendorong arus <strong>Normalisasi (Abraham Accords)</strong>—bahkan membujuk Indonesia agar ikut menormalisasi hubungan. Segala bentuk normalisasi dengan perampok tanah suci adalah pengkhianatan yang tak termaafkan.</div>
+                    </div>
+                  </div>
+                `
+              },
+              {
+                num: "02",
+                heading: "Memutus 'Hablun Minannas' & Fase Tamayuz (Filterisasi Ilahi)",
+                body: `
+                  <p>Mengapa entitas selemah Israel masih berdiri? QS Ali 'Imran: 112 menjawab bahwa mereka hanya bisa berdiri karena berpegang pada <em>"Hablun minannas"</em> (tali perlindungan dari manusia: dukungan AS/Barat dan perjanjian perlindungan dari rezim-rezim Arab). Begitu tali perlindungan rezim-rezim penyangga ini terputus melalui <em>Radical Change</em>, Israel akan runtuh seketika. Apa yang terjadi hari ini adalah fase <strong>Tamayuz (QS Ali 'Imran: 179)</strong>—proses penyaringan ilahi untuk memisahkan siapa yang jujur membela Al-Aqsha dan siapa yang munafik sebelum Allah menganugerahkan kemenangan.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Mengapa pembebasan kota Aleppo hingga Damaskus di Suriah dipandang sangat krusial dalam Teori Lingkaran Keberkahan?",
+              options: [
+                "Karena Suriah (Syam) adalah salah satu dari dua sayap utama Baitul Maqdis; baik Umar maupun Shalahuddin membebaskan Damaskus/Suriah terlebih dahulu sebelum membebaskan Baitul Maqdis",
+                "Karena Suriah terletak di luar Lingkaran Ketiga",
+                "Karena Suriah tidak memiliki perbatasan dengan negara lain"
+              ],
+              answer: 0
+            }
+          },
+          {
+            pillName: "03. Model Shalahuddin",
+            kicker: "BAB 03 • MODEL KOGNITIF SHALAHUDDIN AL-AYYUBI",
+            title: "Rumus 16,5 Tahun vs 5 Tahun & Mencetak Nukhbatun Nukhbah",
+            arabic: "فَلَوْلَا نَفَرَ مِن كُلِّ فِرْقَةٍ مِّنْهُمْ طَائِفَةٌ لِّيَتَفَقَّهُوا فِي الدِّينِ",
+            quoteMeaning: "“...Maka mengapa tidak pergi dari tiap-tiap golongan di antara mereka beberapa orang (Tha'ifah / Nukhbah) untuk memperdalam pengetahuan mereka tentang agama...” (QS. At-Taubah: 122)",
+            sections: [
+              {
+                num: "01",
+                heading: "Enam Persamaan Matematis Baitul Maqdis",
+                body: `
+                  <p>Sebagai rumusan kunci dari seluruh perjalanan sejarah, terdapat 6 kepastian historis yang wajib tertanam dalam kesadaran setiap Muslim:</p>
+                  <p><strong>1.</strong> Baitul Maqdis adalah simbol kehormatan umat; tidak ada kemuliaan bagi Muslimin tanpanya.<br>
+                  <strong>2.</strong> Baitul Maqdis adalah barometer kondisi umat; jika ia terjajah, tandanya umat sedang sakit.<br>
+                  <strong>3.</strong> Baitul Maqdis membutuhkan umat, dan umat membutuhkan keberkahan Baitul Maqdis.<br>
+                  <strong>4.</strong> Baitul Maqdis adalah persoalan global setiap insan yang bersyahadat, bukan isu lokal Palestina.<br>
+                  <strong>5.</strong> Baitul Maqdis adalah kunci perdamaian dunia (<em>Al-Amaan</em>).<br>
+                  <strong>6.</strong> Siapa yang menguasai Baitul Maqdis, dialah yang memegang kendali kepemimpinan dunia.</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Bedah Waktu Shalahuddin (21,5 Tahun): 75% Pembenahan Internal vs 25% Melawan Salibis",
+                body: `
+                  <p>Perbedaan antara sejarawan biasa dengan ahli strategi Hubungan Internasional adalah: sejarawan berhenti pada verifikasi masa lalu, sedangkan ahli strategi mengekstrak <strong>pola (pattern)</strong> untuk merancang masa depan. Jika kita membedah total <strong>21,5 tahun</strong> rentang perjuangan Shalahuddin Al-Ayyubi hingga pembebasan Al-Aqsha (1187 M), kita akan menemukan proporsi waktu yang mengejutkan:</p>
+                  <div class="editorial-callout">
+                    <p><strong>• 5 Tahun Pertama:</strong> Dihabiskan Shalahuddin untuk membebaskan Mesir dan mengakhiri Daulah Fatimiyyah (Syi'ah) yang berkoalisi dan bersekongkol dengan Pasukan Salib.<br>
+                    <strong>• 11,5 Tahun Berikutnya:</strong> Dihabiskan untuk menyatukan wilayah Syam dan menundukkan penguasa-penguasa lokal Muslim yang berkhianat menjadi "satpam" pelindung tentara Salib.<br>
+                    <strong>• Hanya 5 Tahun Terakhir (¼ Waktu):</strong> Setelah Mesir dan Syam bersatu secara organik (16,5 tahun atau ¾ total waktu), Shalahuddin hanya membutuhkan 5 tahun untuk menghancurkan tentara Salib di Pertempuran Hittin dan membebaskan Masjid Al-Aqsha!</p>
+                  </div>
+                  <p>Fakta historis ini juga menjawab secara tegas mengapa proyek ekspansi sektarian (seperti Fatimiyyah di masa lalu maupun Iran hari ini) tidak pernah menjadi bagian dari pembebasan Baitul Maqdis, melainkan justru harus diwaspadai karena menyalahi model penyatuan Shalahuddin.</p>
+                `
+              },
+              {
+                num: "03",
+                heading: "Apakah Harus Menunggu Seluruh Umat Sadar? Konsep 'Nukhbatun Nukhbah'",
+                body: `
+                  <p>Muncul pertanyaan penting: <em>Apakah kita harus menunggu seluruh 2 miliar umat Islam bebas akalnya terlebih dahulu baru Baitul Maqdis bisa merdeka?</em> Jawabannya: <strong>Tidak harus seluruhnya, melainkan cukup kelompok terpilihnya (Nukhbatun Nukhbah / Elit Intelektual & Pejuang)</strong> yang memiliki kesinambungan (<em>Continuity / Istiqomah</em>), sebagaimana firman Allah tentang <em>Tha'ifah</em> dalam QS At-Taubah: 122.</p>
+                  <p>Tugas kita hari ini—khususnya para penuntut ilmu dan akademisi di Indonesia—adalah menulis makalah strategis, mengarahkan topik skripsi/tesis/disertasi pada kajian Baitul Maqdis, menyebarkan 4 literatur fundamental (<em>Rencana Strategis Pembebasan Masjid Al-Aqsha</em>, <em>Memetakan Kembali Baitul Maqdis</em>, serta makalah <em>Proyek Kolonial Barat</em> & <em>Model Kognitif Shalahuddin</em>), serta menanamkan kurikulum Baitul Maqdis kepada generasi muda.</p>
+                `
+              }
+            ],
+            quiz: {
+              q: "Mengapa Shalahuddin Al-Ayyubi menghabiskan 16,5 tahun (75% total waktunya) di Mesir dan Syam sebelum melakukan pertempuran penentuan melawan Pasukan Salib di Hittin?",
+              options: [
+                "Karena beliau lupa jalan menuju Baitul Maqdis",
+                "Karena sesuai hukum Lingkaran Keberkahan, Baitul Maqdis mustahil dibebaskan sebelum membersihkan pengkhianat internal (Fatimiyyah & penguasa boneka) serta menyatukan dua sayap organik Mesir dan Syam",
+                "Karena menunggu bantuan pasukan dari Eropa"
+              ],
+              answer: 1
+            }
+          }
+        ]
+      },
+      {
+        id: 4,
+        code: "BAGIAN 05 • PROTOKOL AMAL",
+        cardTitle: "MAQDISI\nPROTOCOL",
+        cardSub: "DISEMINASI & JURNAL AMAL",
+        regionHeader: "TRANSFORMASI ILMU MENJADI GERAKAN DI INDONESIA",
+        arabicTag: "اقتضاء العلم العمل • لا أعلم درجة بعد النبوة أفضل من بث العلم",
+        heroHeadline: "Transformasi Ilmu <strong>Menjadi Amal Nyata</strong>",
+        heroDesc: "“Ilmu adalah pohon, dan amal adalah buahnya. Seseorang tidak terhitung berilmu selama ia belum mengamalkan ilmunya.” — Imam Al-Khatib Al-Baghdadi.",
+        cardImg: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=900&q=80')",
+        metric1Val: "4",
+        metric1Unit: "PILAR",
+        metric1Label: "BUDAYA BAITUL MAQDIS",
+        metric1Sub: "ISTILAH • BISYARAH • AL-ISRA • TRENDING",
+        metric2Val: "100",
+        metric2Unit: "% AMAL",
+        metric2Label: "IQTIHDA'UL 'ILMI AL-'AMAL",
+        metric2Sub: "DISEMINASI KEILMUAN NUSANTARA",
+        svgMap: "M10,30 Q35,10 65,28 T130,15",
+        svgCurve: "M10,42 L35,34 L65,24 L95,14 L132,4",
+        coords: "6.9175° S, 107.6191° E",
+        coordPlace: "INDONESIA • NUSANTARA",
+        coordRole: "PUSAT PERSIAPAN PENGETAHUAN",
+        chapters: [
+          {
+            pillName: "01. Protokol Al-Maqdisi",
+            kicker: "BAB 01 • IMPLEMENTASI NYATA DI INDONESIA",
+            title: "Menghidupkan Budaya Baitul Maqdis & Menunaikan Amanah Keilmuan",
+            arabic: "اللهم إنا نسألك صلاة في المسجد الأقصى وهو حر عزيز",
+            quoteMeaning: "“Ya Allah, sesungguhnya kami memohon kepada-Mu agar dapat mendirikan shalat di dalam Masjid Al-Aqsha dalam keadaan merdeka dan mulia.”",
+            sections: [
+              {
+                num: "01",
+                heading: "Hadiah Terbaik Kita untuk Masjid Al-Aqsha",
+                body: `
+                  <p>Ketika Maimunah binti Sa'ad bertanya kepada Rasulullah ﷺ tentang apa yang harus dilakukan seorang Muslim jika terhalang tidak mampu mendatangi Masjid Al-Aqsha, beliau menjawab: <em>"Kirimkanlah minyak untuk menerangi lampu-lampunya, maka siapa yang melakukannya seolah-olah ia telah shalat di dalamnya."</em> Hadits ini selama berabad-abad menginspirasi amal strategis yang melampaui sekadar donasi konsumtif.</p>
+                  <p>Nuruddin Zanki mengimplementasikan hadits tersebut dengan memesan pembuatan mimbar kayu terbaik selama 7 tahun di Aleppo ketika Masjid Al-Aqsha masih dikuasai Salibis—yang akhirnya dipasang oleh muridnya, Shalahuddin, saat Al-Aqsha merdeka (hingga dibakar Zionis pada 1969 untuk memutus memori sejarah umat). Para wanita di Diyarbakir mengimplementasikannya dengan mengekstrak parfum bunga terbaik dan menyerahkannya kepada Shalahuddin agar dituangkan untuk menyucikan batu <em>Shakhrah</em> di hari pembebasan. Hari ini, hadiah terbaik yang paling dibutuhkan dari Indonesia adalah <strong>mewakafkan waktu, akal, dan tenaga untuk memimpin Al-I'dad Al-Ma'rifi (Persiapan Pengetahuan)</strong>.</p>
+                `
+              },
+              {
+                num: "02",
+                heading: "Empat Agenda Praktis Maqdisi Protocol",
+                body: `
+                  <div class="pillars-list">
+                    <div class="pillar-row">
+                      <div class="pillar-idx">AGENDA 1</div>
+                      <div class="pillar-name">Disiplin Terminologi</div>
+                      <div class="pillar-detail">Menggunakan dan mempopulerkan istilah <strong>Baitul Maqdis</strong>, <strong>Masjid Al-Aqsha</strong>, <strong>Al-Ardhul Muqaddasah</strong>, <strong>Al-Ardhul Mubarakah</strong>, dan <strong>Tembok Buraq</strong> di ruang keluarga, mimbar, sekolah, dan media sosial.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">AGENDA 2</div>
+                      <div class="pillar-name">Menyebarkan Bisyarah</div>
+                      <div class="pillar-detail">Menghancurkan narasi keputusasaan bahwa "Israel tak terkalahkan" atau "hanya bisa bebas saat turunnya Imam Mahdi". Sebarkan bukti historis bahwa proyek kolonial Barat memiliki masa kedaluwarsa dan kemerdekaan Al-Aqsha mendahului tegaknya khilafah akhir zaman.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">AGENDA 3</div>
+                      <div class="pillar-name">Sunnah Malam Al-Isra'</div>
+                      <div class="pillar-detail">Membiasakan diri dan keluarga membaca serta mentadabburi Surah Al-Isra' setiap malam sebelum tidur sebagaimana sunnah Rasulullah ﷺ, serta menjaga energi ruhiyah lewat Qiyamul Lail dan Subuh berjamaah.</div>
+                    </div>
+                    <div class="pillar-row">
+                      <div class="pillar-idx">AGENDA 4</div>
+                      <div class="pillar-name">Riset & Kurikulum</div>
+                      <div class="pillar-detail">Menyebarluaskan literatur utama Baitul Maqdis, mendorong adopsi kurikulum anak usia 5–18 tahun di sekolah/yayasan Islam swasta sebagai percontohan sebelum naik ke tingkat kementerian, serta menulis kajian strategis pembebasan.</div>
+                    </div>
+                  </div>
+                `
+              }
+            ],
+            quiz: {
+              q: "Mengapa ulama menekankan bahwa kita tidak boleh pasif menunggu turunnya Imam Mahdi untuk membebaskan Baitul Maqdis?",
+              options: [
+                "Karena berdasarkan hadits-hadits nubuwwah dan tahapan sejarah, pembebasan Baitul Maqdis justru terjadi terlebih dahulu melalui ikhtiar umat sebelum tegaknya kekhilafahan di Baitul Maqdis dan datangnya masa Imam Mahdi",
+                "Karena sejarah sudah berhenti berjalan",
+                "Karena kewajiban beramal hanya berlaku bagi generasi masa lalu"
+              ],
+              answer: 0
+            }
+          }
+        ]
+      }
+    ];
+
+    let activeLevelIndex = 0;
+    let activeChapterIndex = 0;
+    let isHeroMode = false;
+    let isReadingMode = false;
+
+    const cardsTrack = document.getElementById('cardsTrack');
+    const pagerRow = document.getElementById('pagerRow');
+    const dotsIndicator = document.getElementById('dotsIndicator');
+    const mainStage = document.getElementById('mainStage');
+    const bottomHud = document.getElementById('bottomHud');
+    const bgContainer = document.getElementById('bgContainer');
+    const btnCloseOverlay = document.getElementById('btnCloseOverlay');
+    const btnCloseText = document.getElementById('btnCloseText');
+    const readingOverlay = document.getElementById('readingOverlay');
+
+    function initApp() {
+      renderCards();
+      renderPager();
+      updateStageUI(0);
+    }
+
+    function renderCards() {
+      cardsTrack.innerHTML = levelsData.map((lvl, idx) => `
+        <div class="course-card ${idx === activeLevelIndex ? 'active-card' : ''}" 
+             style="--card-img: ${lvl.cardImg}"
+             onclick="handleCardClick(${idx})">
+          <div class="card-top">
+            <div class="card-badge-orb">${idx + 1}</div>
+            <span class="card-chapter-count">${lvl.chapters.length} BAB UTAMA</span>
+          </div>
+          <div class="card-bottom">
+            <div class="card-level-tag">${lvl.code}</div>
+            <div class="card-title">${lvl.cardTitle.replace('\n', '<br>')}</div>
+            <div class="card-subtitle">
+              <span>${lvl.cardSub}</span>
+              <span>→</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderPager() {
+      pagerRow.innerHTML = levelsData.map((_, idx) => `
+        <button class="pager-num ${idx === activeLevelIndex ? 'active' : ''}" 
+                onclick="selectLevel(${idx})">${idx + 1}</button>
+      `).join('');
+
+      dotsIndicator.innerHTML = levelsData.map((_, idx) => `
+        <div class="dot ${idx === activeLevelIndex ? 'active' : ''}"></div>
+      `).join('');
+    }
+
+    function selectLevel(index) {
+      activeLevelIndex = index;
+      activeChapterIndex = 0;
+      updateStageUI(index);
+    }
+
+    function handleCardClick(index) {
+      if (activeLevelIndex !== index) {
+        selectLevel(index);
+      }
+      enterHeroMode();
+    }
+
+    function enterHeroMode() {
+      isHeroMode = true;
+      mainStage.classList.add('hero-active');
+      bgContainer.classList.add('hero-mode');
+      btnCloseOverlay.style.display = 'flex';
+      btnCloseText.textContent = 'SEMUA BAGIAN';
+      updatePeekCard();
+    }
+
+    function exitHeroMode() {
+      isHeroMode = false;
+      mainStage.classList.remove('hero-active');
+      bgContainer.classList.remove('hero-mode');
+      btnCloseOverlay.style.display = 'none';
+    }
+
+    function handleTopClose() {
+      if (isReadingMode) {
+        closeReadingView();
+      } else if (isHeroMode) {
+        exitHeroMode();
+      }
+    }
+
+    function returnToMainStage() {
+      if (isReadingMode) closeReadingView();
+      if (isHeroMode) exitHeroMode();
+    }
+
+    function nextLevelInHero() {
+      const nextIdx = (activeLevelIndex + 1) % levelsData.length;
+      selectLevel(nextIdx);
+      updatePeekCard();
+    }
+
+    function updatePeekCard() {
+      const nextIdx = (activeLevelIndex + 1) % levelsData.length;
+      const nextLvl = levelsData[nextIdx];
+      document.getElementById('peekOrb').textContent = nextIdx + 1;
+      document.getElementById('peekTag').textContent = nextLvl.code;
+      document.getElementById('peekTitle').innerHTML = nextLvl.cardTitle.replace('\n', '<br>');
+      document.getElementById('peekSub').textContent = nextLvl.cardSub;
+    }
+
+    function updateStageUI(index) {
+      const lvl = levelsData[index];
+      const shiftAmount = index * -180;
+      cardsTrack.style.transform = `translateX(${shiftAmount}px)`;
+
+      document.querySelectorAll('.course-card').forEach((el, i) => {
+        el.classList.toggle('active-card', i === index);
+      });
+      document.querySelectorAll('.pager-num').forEach((el, i) => {
+        el.classList.toggle('active', i === index);
+      });
+      document.querySelectorAll('.dot').forEach((el, i) => {
+        el.classList.toggle('active', i === index);
+      });
+
+      document.querySelectorAll('.bg-layer').forEach((bg, i) => {
+        bg.classList.toggle('active', i === index);
+      });
+
+      document.getElementById('topRegionLabel').textContent = lvl.regionHeader;
+      document.getElementById('topMainTitle').textContent = lvl.code;
+
+      document.getElementById('heroArabic').textContent = lvl.arabicTag;
+      document.getElementById('heroHeadline').innerHTML = lvl.heroHeadline;
+      document.getElementById('heroDesc').textContent = lvl.heroDesc;
+
+      document.getElementById('metric1Val').innerHTML = `${lvl.metric1Val}<sup>${lvl.metric1Unit}</sup>`;
+      document.getElementById('metric1Label').textContent = lvl.metric1Label;
+      document.getElementById('metric1Sub').textContent = lvl.metric1Sub;
+
+      document.getElementById('metric2Val').innerHTML = `${lvl.metric2Val}<sup>${lvl.metric2Unit}</sup>`;
+      document.getElementById('metric2Label').textContent = lvl.metric2Label;
+      document.getElementById('metric2Sub').textContent = lvl.metric2Sub;
+
+      const mapPath = document.getElementById('svgMapPath');
+      const curvePath = document.getElementById('svgCurvePath');
+      mapPath.setAttribute('d', lvl.svgMap);
+      curvePath.setAttribute('d', lvl.svgCurve);
+
+      mapPath.style.animation = 'none';
+      curvePath.style.animation = 'none';
+      void mapPath.offsetWidth;
+      mapPath.style.animation = 'drawLine 1.2s ease forwards';
+      curvePath.style.animation = 'drawLine 1.2s ease forwards';
+
+      document.getElementById('coordText').textContent = lvl.coords;
+      document.getElementById('coordPlace').textContent = lvl.coordPlace;
+      document.getElementById('coordRole').textContent = lvl.coordRole;
+      document.getElementById('hudGlobeImg').style.backgroundImage = lvl.cardImg;
+    }
+
+    // ================= EDITORIAL READING VIEW LOGIC =================
+    function openReadingView() {
+      isReadingMode = true;
+      bgContainer.classList.add('reading-mode');
+      mainStage.classList.add('hidden-for-reading');
+      bottomHud.classList.add('hidden-for-reading');
+      readingOverlay.classList.add('open');
+      btnCloseOverlay.style.display = 'flex';
+      btnCloseText.textContent = 'TUTUP RUANG BACA';
+
+      renderChapterPills();
+      renderEditorialChapter(activeChapterIndex);
+    }
+
+    function closeReadingView() {
+      isReadingMode = false;
+      bgContainer.classList.remove('reading-mode');
+      mainStage.classList.remove('hidden-for-reading');
+      bottomHud.classList.remove('hidden-for-reading');
+      readingOverlay.classList.remove('open');
+
+      if (isHeroMode) {
+        btnCloseOverlay.style.display = 'flex';
+        btnCloseText.textContent = 'SEMUA BAGIAN';
+      } else {
+        btnCloseOverlay.style.display = 'none';
+      }
+    }
+
+    function renderChapterPills() {
+      const lvl = levelsData[activeLevelIndex];
+      const bar = document.getElementById('chapterPillBar');
+      bar.innerHTML = lvl.chapters.map((ch, idx) => `
+        <button class="chapter-pill-btn ${idx === activeChapterIndex ? 'active' : ''}" 
+                onclick="switchChapter(${idx})">
+          ${ch.pillName}
+        </button>
+      `).join('');
+    }
+
+    function switchChapter(idx) {
+      activeChapterIndex = idx;
+      renderChapterPills();
+      renderEditorialChapter(idx);
+    }
+
+    function renderEditorialChapter(idx) {
+      const lvl = levelsData[activeLevelIndex];
+      const ch = lvl.chapters[idx];
+      const storageKey = `maqdisi_timeless_note_${activeLevelIndex}_${idx}`;
+      const savedNote = localStorage.getItem(storageKey) || '';
+
+      const hasPrev = idx > 0;
+      const hasNext = idx < lvl.chapters.length - 1;
+
+      const container = document.getElementById('editorialContainer');
+      container.innerHTML = `
+        <header class="chapter-hero">
+          <span class="chapter-kicker">${lvl.code} — ${ch.kicker}</span>
+          <h1 class="chapter-main-title">${ch.title}</h1>
+          <div class="chapter-arabic-banner">
+            <div class="chapter-arabic-text">${ch.arabic}</div>
+            <div class="chapter-quote-meaning">${ch.quoteMeaning}</div>
+          </div>
+        </header>
+
+        ${ch.sections.map(sec => `
+          <section class="editorial-section">
+            <div class="section-index-row">
+              <span class="section-num">BAGIAN ${sec.num}</span>
+              <div class="section-line"></div>
+            </div>
+            <h2 class="section-title">${sec.heading}</h2>
+            <div class="editorial-prose">
+              ${sec.body}
+            </div>
+          </section>
+        `).join('')}
+
+        <!-- UJI PEMAHAMAN & REFLEKSI AL-MAQDISI -->
+        <section class="reflection-sanctuary">
+          <span class="sanctuary-kicker">INTERNALISASI MA'RIFAH</span>
+          <h3 class="sanctuary-title">Uji Ketajaman Konsep</h3>
+          <p style="font-size: 1rem; line-height: 1.7; color: var(--text-body);">${ch.quiz.q}</p>
+          
+          <div class="quiz-minimal-options">
+            ${ch.quiz.options.map((opt, oIdx) => `
+              <button class="quiz-min-btn" onclick="verifyAnswer(this, ${oIdx}, ${ch.quiz.answer})">
+                <strong style="color: var(--gold); margin-right: 0.6rem;">${String.fromCharCode(65 + oIdx)}.</strong> ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="quizStatusMsg" style="margin-top: -1.8rem; margin-bottom: 2.5rem; font-size: 0.9rem; font-weight: 600;"></div>
+
+          <span class="sanctuary-kicker">SYARAT GELAR AL-MAQDISI</span>
+          <h3 class="sanctuary-title">Catatan Refleksi & Rencana Aksi</h3>
+          <p style="font-size: 0.95rem; line-height: 1.7; color: var(--text-muted);">
+            Ikatlah ilmu dengan tulisan. Rumuskan intisari pemahamanmu dari bab ini serta langkah konkret yang dapat kamu terapkan untuk menghidupkan budaya Baitul Maqdis:
+          </p>
+          <textarea class="journal-input" id="journalTextarea" placeholder="Tuliskan refleksi mendalam dan gagasan strategismu di sini...">${savedNote}</textarea>
+          <div style="display: flex; align-items: center; gap: 1.2rem; margin-top: 1.1rem;">
+            <button class="btn-primary-gold" style="padding: 0.75rem 1.8rem; font-size: 0.74rem;" onclick="saveJournal('${storageKey}')">
+              Simpan Catatan Refleksi
+            </button>
+            <span id="journalSavedBadge" style="font-size: 0.82rem; color: var(--gold);"></span>
+          </div>
+        </section>
+
+        <footer class="chapter-footer-nav">
+          <div>
+            ${hasPrev ? `<button class="btn-secondary-glass" onclick="switchChapter(${idx - 1})">← Bab Sebelumnya</button>` : ''}
+          </div>
+          <div>
+            ${hasNext 
+              ? `<button class="btn-primary-gold" onclick="switchChapter(${idx + 1})"><span>Bab Selanjutnya</span><span>→</span></button>` 
+              : `<button class="btn-secondary-glass" onclick="closeReadingView()">Kembali ke Peta Utama</button>`}
+          </div>
+        </footer>
+      `;
+
+      readingOverlay.scrollTop = 0;
+    }
+
+    function verifyAnswer(btnEl, chosenIdx, correctIdx) {
+      const parent = btnEl.parentElement;
+      const msg = document.getElementById('quizStatusMsg');
+      parent.querySelectorAll('.quiz-min-btn').forEach(b => b.classList.remove('correct', 'wrong'));
+
+      if (chosenIdx === correctIdx) {
+        btnEl.classList.add('correct');
+        msg.style.color = '#34d399';
+        msg.textContent = '✓ Tepat sekali. Pemahaman yang akurat adalah pijakan awal menuju Al-Idrak (Ma’rifah).';
+      } else {
+        btnEl.classList.add('wrong');
+        msg.style.color = '#f87171';
+        msg.textContent = '✕ Belum tepat. Silakan telaah kembali uraian naratif di atas.';
+      }
+    }
+
+    function saveJournal(key) {
+      const val = document.getElementById('journalTextarea').value;
+      localStorage.setItem(key, val);
+      const badge = document.getElementById('journalSavedBadge');
+      badge.textContent = '✓ Tersimpan otomatis di browser ini';
+      setTimeout(() => { badge.textContent = ''; }, 3000);
+    }
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (isReadingMode) {
+        if (e.key === 'Escape') closeReadingView();
+        return;
+      }
+      if (e.key === 'ArrowRight') {
+        selectLevel((activeLevelIndex + 1) % levelsData.length);
+        if (isHeroMode) updatePeekCard();
+      } else if (e.key === 'ArrowLeft') {
+        selectLevel((activeLevelIndex - 1 + levelsData.length) % levelsData.length);
+        if (isHeroMode) updatePeekCard();
+      } else if (e.key === 'Escape' && isHeroMode) {
+        exitHeroMode();
+      }
+    });
+
+    initApp();
+  </script>
+</body>
+</html>
